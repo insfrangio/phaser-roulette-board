@@ -1,61 +1,6 @@
 import { Scene } from "phaser";
-
-const firstRow = [
-  {
-    label: "3",
-    value: 3,
-  },
-  {
-    label: "6",
-    value: 6,
-  },
-  {
-    label: "9",
-    value: 9,
-  },
-  {
-    label: "12",
-    value: 12,
-  },
-  {
-    label: "15",
-    value: 15,
-  },
-  {
-    label: "18",
-    value: 18,
-  },
-  {
-    label: "21",
-    value: 21,
-  },
-  {
-    label: "24",
-    value: 24,
-  },
-  {
-    label: "27",
-    value: 27,
-  },
-  {
-    label: "30",
-    value: 30,
-  },
-  {
-    label: "33",
-    value: 33,
-  },
-  {
-    label: "36",
-    value: 36,
-  },
-];
-
-const rows = [firstRow];
-
-const cols = [rows];
-
-const drawerBoard = [cols];
+import { drawerBoard } from "../const";
+import { RectangleContainer } from "../element";
 
 export class Game extends Scene {
   image?: Phaser.GameObjects.Image;
@@ -67,16 +12,10 @@ export class Game extends Scene {
     this.cameras.main.setBackgroundColor(0x00ff00);
 
     this.image = this.createBoard();
-
-    // this.input.once("pointerdown", () => {
-    //   this.scene.start("GameOver");
-    // });
-    // this.createRects();
-    // this.createOneRect();
     this.createBoardDrawer();
   }
 
-  createBoard() {
+  private createBoard() {
     const image = this.add.image(
       this.cameras.main.width / 2,
       this.cameras.main.height / 2,
@@ -87,6 +26,35 @@ export class Game extends Scene {
 
     return image;
   }
+
+  private createMainColumns(
+    x: number = 0,
+    y: number = 0,
+    width: number = 0,
+    height: number = 0
+  ) {
+    // drawerBoard.map((col, colIndex) => {
+    //   console.log(colIndex, col);
+    // });
+
+    const mainRectangle = new RectangleContainer({
+      scene: this,
+      x,
+      y,
+      color: 0xff0000,
+      text: "1",
+      boxWidth: width,
+      boxHeight: height,
+      onClick: () => {
+        alert("click");
+      },
+    }).setDepth(1000);
+
+    console.log("creatt", mainRectangle);
+
+    this.add.existing(mainRectangle);
+  }
+
   createBoardDrawer() {
     const getBoundsImage = this.image?.getBounds();
     if (!getBoundsImage) return;
@@ -94,18 +62,21 @@ export class Game extends Scene {
     const { x, y, width, height } = getBoundsImage;
     const initialX = x + 87.5;
 
-    drawerBoard.map((col, colIndex) => {
-      col.map((row, rowIndex) => {
-        row.map((cell, cellIndex) => {
-          cell.map((rect, rectIndex) => {
-            const newX = initialX + 78.2 * rectIndex;
-            const newY = y + 22;
+    console.log("drawerBoard", drawerBoard);
+    this.createMainColumns(x, y, width, height);
 
-            return this.createOneRect({ x: newX, y: newY, label: rect.label });
-          });
-        });
-      });
-    });
+    // drawerBoard.map((col, colIndex) => {
+    //   col.map((row, rowIndex) => {
+    //     row.map((cell, cellIndex) => {
+    //       cell.map((rect, rectIndex) => {
+    //         const newX = initialX + 78.2 * rectIndex;
+    //         const newY = y + 22;
+
+    //         return this.createOneRect({ x: newX, y: newY, label: rect.label });
+    //       });
+    //     });
+    //   });
+    // });
   }
 
   createOneRect({ x, y, label }: { x: number; y: number; label: string }) {

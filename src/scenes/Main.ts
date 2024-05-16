@@ -8,7 +8,7 @@ export class MainMenu extends Scene {
   create() {
     // this.add.image(512, 384, "background");
 
-    const image = this.add.image(
+    this.add.image(
       this.cameras.main.width / 2,
       this.cameras.main.height / 2,
       "logo"
