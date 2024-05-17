@@ -4,17 +4,19 @@ interface RectangleConfig {
   y: number;
   boxWidth: number;
   boxHeight: number;
-  color: number;
-  onClick?: () => void;
+  boxAlpha?: number;
+  color?: number;
+  onClick?: (pointer?: PointerEvent) => void;
   text?: string;
 }
 
 export class RectangleContainer extends Phaser.GameObjects.Container {
-  private color: number = 0x000000;
-  private onClick?: () => void;
+  private color?: number = 0x000000;
+  private onClick?: (pointer: PointerEvent) => void;
   private text?: string;
   private boxWidth: number = 50;
   private boxHeight: number = 50;
+  private boxAlpha: number = 1;
 
   constructor(config: RectangleConfig) {
     super(config.scene, config.x, config.y);
@@ -24,6 +26,7 @@ export class RectangleContainer extends Phaser.GameObjects.Container {
     this.text = config.text;
     this.boxWidth = config.boxWidth;
     this.boxHeight = config.boxHeight;
+    this.boxAlpha = typeof config.boxAlpha === "number" ? config.boxAlpha : 1;
 
     this.create();
 
@@ -57,10 +60,12 @@ export class RectangleContainer extends Phaser.GameObjects.Container {
 
   private createGraphics() {
     const graphics = this.scene.add.graphics({
-      fillStyle: { color: this.color },
+      fillStyle: { color: this.color, alpha: this.boxAlpha },
     });
 
-    graphics.lineStyle(1, 0xff0000);
+    if (typeof this.color === "number") {
+      graphics.lineStyle(1, this.color, 1);
+    }
 
     return graphics;
   }
@@ -70,15 +75,15 @@ export class RectangleContainer extends Phaser.GameObjects.Container {
     rect: Phaser.Geom.Rectangle
   ) {
     graphics.setInteractive(rect, Phaser.Geom.Rectangle.Contains);
-    graphics.on("pointerdown", () => {
-      this.onClick?.();
+    graphics.on("pointerdown", (pointer: PointerEvent) => {
+      this.onClick?.(pointer);
     });
   }
 
   private createText() {
     const text = this.scene.add.text(0, 0, this.text || "empty", {
       align: "center",
-      fontSize: "32px",
+      fontSize: "12px",
     });
 
     text.setOrigin(0.5);

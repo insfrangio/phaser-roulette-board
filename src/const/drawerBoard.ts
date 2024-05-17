@@ -84,19 +84,59 @@ const C = [
   },
 ];
 
-const cols = [
+const mainColBRows = [
   {
-    col: A,
+    label: "BA",
+    value: 0,
+    height: 254,
+    y: 0,
+    x: 0,
+  },
+  {
+    label: "BB",
+    value: 1,
+    height: 50,
+    y: 254,
+    x: 10,
+    col: [
+      { label: "BBA", value: 0, height: 254, y: 0 },
+      { label: "BBC", value: 0, height: 254, y: 0 },
+      { label: "BBD", value: 0, height: 254, y: 0 },
+    ],
+  },
+  { label: "BC", value: 2, height: 64, y: 50 + 254, x: 10 },
+];
+
+const mainColCRows = [
+  { label: "CA", value: 0, height: 82, y: 0 },
+  { label: "CB", value: 1, height: 82, y: 82 },
+  { label: "CC", value: 2, height: 82, y: 82 + 82 },
+];
+
+const mainCols = [
+  {
+    label: "A",
     type: "triangle",
+    width: 58,
+    height: 246,
+    x: 0,
   },
   {
-    col: B,
+    label: "B",
+    col: mainColBRows,
     type: "rectangle",
+    width: 962,
+    height: 369,
+    x: 58,
   },
   {
-    col: C,
+    label: "C",
+    col: mainColCRows,
     type: "verticalRectangle",
+    width: 72,
+    height: 246,
+    x: 58 + 962,
   },
 ];
 
-export const drawerBoard = cols;
+export const drawerBoard = mainCols;

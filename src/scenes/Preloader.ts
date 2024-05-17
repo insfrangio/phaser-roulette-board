@@ -41,6 +41,7 @@ export class Preloader extends Scene {
 
     this.load.svg("logo", "logo.svg");
     this.load.image("board", "board.png");
+    this.load.image("chip", "chip.png");
   }
 
   create() {
