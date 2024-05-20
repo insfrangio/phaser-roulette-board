@@ -66,7 +66,7 @@ export class Board extends Phaser.GameObjects.Container {
       x,
       y,
       color: 0xff0000,
-      boxAlpha: 0.5,
+      boxAlpha: 0,
       boxWidth: width,
       boxHeight: height,
       onClick: () => {
@@ -86,7 +86,7 @@ export class Board extends Phaser.GameObjects.Container {
 
     let accumulatedWidth = 0;
     const cols = colsProps.map((col, colIndex) => {
-      const currentWidth = typeof col.width === "undefined" ? 20 : col.width;
+      const currentWidth = typeof col.width === "undefined" ? 17 : col.width;
 
       const column = new RectangleContainer({
         scene: this.scene,
@@ -95,8 +95,8 @@ export class Board extends Phaser.GameObjects.Container {
         color: colIndex % 2 === 0 ? 0xff3f34 : 0x1e272e,
         boxWidth: currentWidth,
         boxHeight: height,
-        boxAlpha: 0.3,
-        text: col.label,
+        boxAlpha: 0,
+        // text: col.label,
         onClick: (pointer) => {
           if (!pointer) return;
 
@@ -150,8 +150,8 @@ export class Board extends Phaser.GameObjects.Container {
         color: rowIndex % 2 === 0 ? 0xf9ca24 : 0x7ed6df,
         boxWidth: width,
         boxHeight: currentHeight,
-        boxAlpha: 0.4,
-        text: row.label,
+        boxAlpha: 0,
+        // text: row.label,
         onClick: (pointer) => {
           if (!pointer) return;
 
@@ -184,8 +184,8 @@ export class Board extends Phaser.GameObjects.Container {
         color: colIndex % 2 === 0 ? 0xf9ca24 : 0x7ed6df,
         boxWidth: width,
         boxHeight: height,
-        boxAlpha: 0.4,
-        text: col.label,
+        boxAlpha: 0,
+        // text: col.label,
         onClick: (pointer) => {
           if (!pointer) return;
 
@@ -221,8 +221,8 @@ export class Board extends Phaser.GameObjects.Container {
         color: rowIndex % 2 === 0 ? 0xe67e22 : 0xf368e0,
         boxWidth: currentWidth,
         boxHeight: row.height || 0,
-        boxAlpha: 0.4,
-        text: row.label,
+        boxAlpha: 0,
+        // text: row.label,
         onClick: (pointer) => {
           if (!pointer) return;
 
@@ -257,8 +257,8 @@ export class Board extends Phaser.GameObjects.Container {
         color: colIndex % 2 === 0 ? 0x00ff00 : 0x0000ff,
         boxWidth: column.width,
         boxHeight: column.height ? column.height : height,
-        boxAlpha: 0.4,
-        text: column.label,
+        boxAlpha: 0,
+        // text: column.label,
         onClick: (pointer) => {
           if (!pointer) return;
 
