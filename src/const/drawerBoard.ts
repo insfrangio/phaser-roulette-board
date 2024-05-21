@@ -1,4 +1,4 @@
-import { BoardContainer } from "../types";
+import { BoardColFigure, DrawerBoard } from "../types";
 
 const generateRow = (start: number, end: number) => {
   const row = [];
@@ -66,35 +66,14 @@ const secondRow = [
   },
 ];
 
-// const rows = [firstRow];
-
-const A = [
-  {
-    label: "0",
-    value: 0,
-  },
-];
-const BA = [firstRow, secondRow];
-const BB = generateRow(13, 24);
-const BC = generateRow(25, 36);
-
-const B = [BA, BB, BC];
-const C = [
-  {
-    label: "X",
-    value: 11,
-  },
-];
-
 const widthSquare = 17;
 const widthRectangle = 61;
 
-const mainColBRows = [
+const mainRowB = [
   {
     label: "BA",
     value: 0,
     height: 246,
-    y: 0,
     x: 0,
     col: [
       {
@@ -273,7 +252,7 @@ const mainColBRows = [
               {
                 label: "24",
                 value: 0,
-                width: widthRectangle + 26,
+                width: widthRectangle + 16,
                 height: 254,
                 y: 0,
               },
@@ -448,7 +427,7 @@ const mainColBRows = [
               {
                 label: "24",
                 value: 0,
-                width: widthRectangle + 26,
+                width: widthRectangle + 16,
                 height: 254,
                 y: 0,
               },
@@ -623,7 +602,7 @@ const mainColBRows = [
               {
                 label: "24",
                 value: 0,
-                width: widthRectangle + 26,
+                width: widthRectangle + 16,
                 height: 254,
                 y: 0,
               },
@@ -798,7 +777,7 @@ const mainColBRows = [
               {
                 label: "24",
                 value: 0,
-                width: widthRectangle + 26,
+                width: widthRectangle + 16,
                 height: 254,
                 y: 0,
               },
@@ -973,7 +952,7 @@ const mainColBRows = [
               {
                 label: "24",
                 value: 0,
-                width: widthRectangle + 26,
+                width: widthRectangle + 16,
                 height: 254,
                 y: 0,
               },
@@ -1148,7 +1127,7 @@ const mainColBRows = [
               {
                 label: "24",
                 value: 0,
-                width: widthRectangle + 26,
+                width: widthRectangle + 16,
                 height: 254,
                 y: 0,
               },
@@ -1163,8 +1142,7 @@ const mainColBRows = [
     value: 1,
     height: 51,
     width: 942,
-    y: 246,
-    x: 10,
+    x: 5,
     col: [
       { label: "BBA", value: 0, height: 254, y: 0 },
       { label: "BBB", value: 0, height: 254, y: 0 },
@@ -1176,8 +1154,7 @@ const mainColBRows = [
     value: 2,
     height: 64,
     width: 942,
-    y: 51 + 246,
-    x: 10,
+    x: 5,
     col: [
       { label: "BCA", value: 0, height: 254, y: 0 },
       { label: "BCB", value: 0, height: 254, y: 0 },
@@ -1189,41 +1166,50 @@ const mainColBRows = [
   },
 ];
 
-const mainColCRows = [
-  { label: "CA", value: 0, height: 82, y: 0, x: 0 },
-  { label: "CB", value: 1, height: 82, y: 82, x: 0 },
-  { label: "CC", value: 2, height: 82, y: 82 + 82, x: 0 },
+const mainRowC = [
+  { label: "CA", value: 0, height: 80, y: 0, x: 0 },
+  { label: "CB", value: 1, height: 80, y: 80, x: 0 },
+  { label: "CC", value: 2, height: 80, y: 80 + 80, x: 0 },
+];
+
+const polygonPoints = [
+  { x: 0, y: 130 },
+  { x: 26, y: 0 },
+  { x: 62, y: 0 },
+  { x: 62, y: 240 },
+  { x: 26, y: 240 },
+  { x: 0, y: 130 },
 ];
 
 const mainCols = [
   {
     label: "A",
-    type: "triangle",
+    type: BoardColFigure.POLYGON,
     width: 62,
     height: 240,
-    x: 0,
+    points: polygonPoints,
   },
   {
     label: "B",
-    row: mainColBRows,
-    type: "rectangle",
-    width: 962,
-    x: 62,
+    row: mainRowB,
+    type: BoardColFigure.RECTANGLE,
+    width: 948,
   },
   {
     label: "C",
-    row: mainColCRows,
-    type: "verticalRectangle",
-    width: 72,
+    row: mainRowC,
+    type: BoardColFigure.RECTANGLE,
+    width: 79,
     height: 240,
-    x: 62 + 962,
   },
 ];
 
-export const drawerBoard = mainCols;
-
-//  label: string;
-//  value: number;
-//  height: number;
-//  y: number;
-//  x: number;
+export const drawerBoard: DrawerBoard = {
+  x: -546.5,
+  y: -174.5,
+  width: 1091,
+  height: 361,
+  debugColor: 0xff0000,
+  debugOpacity: 0,
+  cols: mainCols,
+};

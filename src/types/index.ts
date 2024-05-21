@@ -1,29 +1,58 @@
-export interface BoardContainer {
-  label: string;
-  cols: Col[] | undefined;
-  type: string;
+export interface DrawerBoard {
+  x: number;
+  y: number;
   width: number;
   height: number;
-  x: number;
+  debugColor: number;
+  debugOpacity: number;
+  cols: DrawerBoardCol[];
 }
 
-export interface Col {
+export interface DrawerBoardCol {
   label: string;
-  value: number;
-  height: number;
-  width?: number;
-  y: number;
-  col: Col[] | undefined;
+  type: BoardColFigure;
+  width: number;
+  height?: number;
+  points?: Point[];
   row?: Row[];
+}
+
+export enum BoardColFigure {
+  RECTANGLE = "RECTANGLE",
+  POLYGON = "POLYGON",
+}
+
+export interface Point {
   x: number;
+  y: number;
 }
 
 export interface Row {
   label: string;
   value: number;
-  width?: number;
-  height?: number;
+  height: number;
   y: number;
   x: number;
-  col?: Col[];
+  col?: ColElement[];
+  width?: number;
+}
+
+export interface ColElement {
+  label: string;
+  value: number;
+  height?: number;
+  y: number;
+  row?: RowElement[];
+  col?: ColElement[];
+  width?: number;
+}
+
+export interface RowElement {
+  label: string;
+  value: number;
+  height?: number;
+  y: number;
+  row?: RowElement[];
+  col?: ColElement[];
+  width?: number;
 }

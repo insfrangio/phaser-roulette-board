@@ -1,5 +1,6 @@
 import { drawerBoard } from "../const";
-import { Col, Row } from "../types";
+import { BoardColFigure, ColElement, Row, RowElement } from "../types";
+import { PolygonContainer } from "./Polygon";
 import { RectangleContainer } from "./Rectangle";
 
 interface BoardConfig {
@@ -17,19 +18,19 @@ export class Board extends Phaser.GameObjects.Container {
     this.scene.add.existing(this);
   }
 
-  private create() {
-    const bgImage = this.createBackgroundImage();
-    const mainContainer = this.createBoard(bgImage);
-
-    this.add([bgImage, mainContainer]);
-  }
-
   private createChip(x: number, y: number) {
     const chip = this.scene.add.image(x, y, "chip");
 
     chip.setOrigin(0.5);
 
     return chip;
+  }
+
+  private create() {
+    const bgImage = this.createBackgroundImage();
+    const mainRectangle = this.createMainRectangle();
+
+    this.add([bgImage, mainRectangle]);
   }
 
   private createBackgroundImage() {
@@ -40,41 +41,20 @@ export class Board extends Phaser.GameObjects.Container {
     return image;
   }
 
-  private createBoard(bgImage: Phaser.GameObjects.Image) {
-    const boundsImage = bgImage.getBounds();
+  private createMainRectangle() {
+    const { x, y, width, height, debugColor, debugOpacity } = drawerBoard;
 
-    const { x, y, width, height } = boundsImage;
-
-    const mainRectangle = this.createMainRectangle(
-      x + 7,
-      y + 12,
-      width - 16,
-      height - 12
-    );
-
-    return mainRectangle;
-  }
-
-  private createMainRectangle(
-    x: number,
-    y: number,
-    width: number,
-    height: number
-  ) {
     const mainRectangle = new RectangleContainer({
       scene: this.scene,
       x,
       y,
-      color: 0xff0000,
-      boxAlpha: 0,
+      color: debugColor,
+      boxAlpha: debugOpacity,
       boxWidth: width,
       boxHeight: height,
-      onClick: () => {
-        alert("click");
-      },
     });
 
-    const mainColumns = this.createMainColumns(height);
+    const mainColumns = this.createMainColumns();
 
     mainRectangle.add(mainColumns);
 
@@ -82,8 +62,6 @@ export class Board extends Phaser.GameObjects.Container {
   }
 
   private createSubColumns(colsProps: Col[], width: number, height: number) {
-    console.log("colsProps", colsProps);
-
     let accumulatedWidth = 0;
     const cols = colsProps.map((col, colIndex) => {
       const currentWidth = typeof col.width === "undefined" ? 17 : col.width;
@@ -98,9 +76,8 @@ export class Board extends Phaser.GameObjects.Container {
         boxAlpha: 0,
         // text: col.label,
         onClick: (pointer) => {
-          if (!pointer) return;
+          if (!pointer || col?.row) return;
 
-          if (col?.row) return;
           const chip = this.createChip(currentWidth / 2, height / 2);
 
           column.add(chip);
@@ -124,8 +101,8 @@ export class Board extends Phaser.GameObjects.Container {
     return cols;
   }
 
-  private createCenterRectangle(
-    rowsProps: Row[],
+  private createSubRows(
+    rowsProps: RowElement[],
     width: number,
     height: number
   ) {
@@ -152,14 +129,6 @@ export class Board extends Phaser.GameObjects.Container {
         boxHeight: currentHeight,
         boxAlpha: 0,
         // text: row.label,
-        onClick: (pointer) => {
-          if (!pointer) return;
-
-          if (row?.col) return;
-          // const chip = this.createChip(width / 2, height / 2);
-
-          // rowRect.add(chip);
-        },
       });
 
       if (row.col) {
@@ -175,7 +144,7 @@ export class Board extends Phaser.GameObjects.Container {
     return rowsCenter;
   }
 
-  private createOtherColumns(colProps: Col[], width: number, height: number) {
+  private createColumns(colProps: ColElement[], width: number, height: number) {
     const cols = colProps.map((col, colIndex) => {
       const column = new RectangleContainer({
         scene: this.scene,
@@ -197,11 +166,7 @@ export class Board extends Phaser.GameObjects.Container {
       });
 
       if (col.row) {
-        const centerRectangle = this.createCenterRectangle(
-          col.row,
-          width,
-          height
-        );
+        const centerRectangle = this.createSubRows(col.row, width, height);
         column.add(centerRectangle);
       }
 
@@ -211,14 +176,16 @@ export class Board extends Phaser.GameObjects.Container {
     return cols;
   }
   private createRows(rows: Row[], width: number) {
-    const columns = rows.map((row, rowIndex) => {
+    let accumulatedHeight = 0;
+    const rowsContainer = rows.map((row, rowIndex) => {
       const currentWidth = row.width || width;
+      const bgColor = rowIndex % 2 === 0 ? 0xe67e22 : 0xf368e0;
 
-      const rowMain = new RectangleContainer({
+      const rowFigure = new RectangleContainer({
         scene: this.scene,
         x: row.x,
-        y: row.y,
-        color: rowIndex % 2 === 0 ? 0xe67e22 : 0xf368e0,
+        y: accumulatedHeight,
+        color: bgColor,
         boxWidth: currentWidth,
         boxHeight: row.height || 0,
         boxAlpha: 0,
@@ -226,56 +193,81 @@ export class Board extends Phaser.GameObjects.Container {
         onClick: (pointer) => {
           if (!pointer) return;
 
-          if (row?.col || typeof row.height === "undefined") return;
+          if (row?.col) return;
           const chip = this.createChip(currentWidth / 2, row.height / 2);
 
-          rowMain.add(chip);
+          rowFigure.add(chip);
         },
       });
 
       if (row.col) {
-        const otherColumns = this.createOtherColumns(
+        const columns = this.createColumns(
           row.col,
           currentWidth / row.col.length,
           row.height || 0
         );
-        rowMain.add(otherColumns);
+        rowFigure.add(columns);
       }
 
-      return rowMain;
+      accumulatedHeight += row.height;
+
+      return rowFigure;
+    });
+
+    return rowsContainer;
+  }
+
+  private createMainColumns() {
+    let accumulatedWidth = 0;
+    const columns = drawerBoard.cols.map((column, colIndex) => {
+      const handleClick = (pointer?: PointerEvent) => {
+        if (!pointer) return;
+        if (column?.row || !column.height) return;
+
+        const chip = this.createChip(column.width / 2, column.height / 2);
+
+        columnFigure.add(chip);
+      };
+
+      const height = column.height ? column.height : drawerBoard.height;
+      const alpha = 0;
+      const bgColor = colIndex % 2 === 0 ? 0x00ff00 : 0x0000ff;
+
+      const columnFigure =
+        column.type === BoardColFigure.POLYGON
+          ? new PolygonContainer({
+              boxHeight: height,
+              boxWidth: column.width,
+              color: bgColor,
+              scene: this.scene,
+              x: accumulatedWidth,
+              y: 0,
+              boxAlpha: alpha,
+              points: column.points || [],
+              onClick: handleClick,
+              // text: column.label,
+            })
+          : new RectangleContainer({
+              scene: this.scene,
+              x: accumulatedWidth,
+              y: 0,
+              color: bgColor,
+              boxWidth: column.width,
+              boxHeight: height,
+              boxAlpha: alpha,
+              onClick: handleClick,
+              // text: column.label,
+            });
+
+      if (column?.row) {
+        columnFigure.add(this.createRows(column.row, column.width));
+      }
+
+      accumulatedWidth += column.width;
+
+      return columnFigure;
     });
 
     return columns;
-  }
-
-  private createMainColumns(height: number) {
-    const containers = drawerBoard.map((column, colIndex) => {
-      const columns = new RectangleContainer({
-        scene: this.scene,
-        x: column.x,
-        y: 0,
-        color: colIndex % 2 === 0 ? 0x00ff00 : 0x0000ff,
-        boxWidth: column.width,
-        boxHeight: column.height ? column.height : height,
-        boxAlpha: 0,
-        // text: column.label,
-        onClick: (pointer) => {
-          if (!pointer) return;
-
-          if (column?.row) return;
-          const chip = this.createChip(column.width / 2, column.height / 2);
-
-          columns.add(chip);
-        },
-      });
-
-      if (column?.row) {
-        columns.add(this.createRows(column.row, column.width));
-      }
-
-      return columns;
-    });
-
-    return containers;
   }
 }
