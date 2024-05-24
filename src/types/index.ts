@@ -14,7 +14,10 @@ export interface DrawerBoardCol {
   width: number;
   height?: number;
   points?: Point[];
+  debugColor: number;
+  debugOpacity: number;
   row?: Row[];
+  key?: number;
 }
 
 export enum BoardColFigure {
@@ -31,11 +34,13 @@ export interface Row {
   label: string;
   value: number;
   height: number;
-  y: number;
   x: number;
   col?: ColElement[];
   width?: number;
+  key?: number;
 }
+
+export interface SubColElement {}
 
 export interface ColElement {
   label: string;
@@ -45,6 +50,7 @@ export interface ColElement {
   row?: RowElement[];
   col?: ColElement[];
   width?: number;
+  key?: number;
 }
 
 export interface RowElement {

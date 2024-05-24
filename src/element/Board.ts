@@ -1,5 +1,22 @@
 import { drawerBoard } from "../const";
-import { BoardColFigure, ColElement, Row, RowElement } from "../types";
+import {
+  cols,
+  filterOptions,
+  firstLine,
+  options,
+  secondLine,
+  secondLineThird,
+  square,
+  zeroOptions,
+} from "../mocked";
+import {
+  BoardColFigure,
+  ColElement,
+  DrawerBoardCol,
+  Row,
+  RowElement,
+} from "../types";
+import { isEmpty } from "../util";
 import { PolygonContainer } from "./Polygon";
 import { RectangleContainer } from "./Rectangle";
 
@@ -7,13 +24,25 @@ interface BoardConfig {
   scene: Phaser.Scene;
   x: number;
   y: number;
+  debug?: boolean;
 }
 
 export class Board extends Phaser.GameObjects.Container {
+  private debug: boolean;
+
   constructor(config: BoardConfig) {
     super(config.scene, config.x, config.y);
+    this.debug = config.debug || false;
 
     this.create();
+
+    console.log("filterOptions", filterOptions);
+    console.log("zeroOptions", zeroOptions);
+    console.log("cols", cols);
+    console.log("firstLine", firstLine);
+    console.log("secondLine", secondLine);
+    console.log("square", square);
+    console.log("secondLineThird", secondLineThird);
 
     this.scene.add.existing(this);
   }
@@ -49,7 +78,7 @@ export class Board extends Phaser.GameObjects.Container {
       x,
       y,
       color: debugColor,
-      boxAlpha: debugOpacity,
+      boxAlpha: this.debug ? debugOpacity : 0,
       boxWidth: width,
       boxHeight: height,
     });
@@ -61,20 +90,26 @@ export class Board extends Phaser.GameObjects.Container {
     return mainRectangle;
   }
 
-  private createSubColumns(colsProps: Col[], width: number, height: number) {
+  private createSubColumns(colsProps: ColElement[], height: number) {
     let accumulatedWidth = 0;
     const cols = colsProps.map((col, colIndex) => {
-      const currentWidth = typeof col.width === "undefined" ? 17 : col.width;
+      const currentWidth = typeof col.width === "undefined" ? 80 : col.width;
+
+      const option = options.find((option) => option.key === col.key);
+
+      // console.log("col", col);
+
+      // console.log(option);
 
       const column = new RectangleContainer({
         scene: this.scene,
         x: accumulatedWidth,
         y: 0,
-        color: colIndex % 2 === 0 ? 0xff3f34 : 0x1e272e,
+        color: colIndex % 2 === 0 ? 0xff3f34 : 0x0000ff,
         boxWidth: currentWidth,
         boxHeight: height,
-        boxAlpha: 0,
-        // text: col.label,
+        boxAlpha: this.debug ? 0.3 : 0,
+        text: String(option?.key) || col.label,
         onClick: (pointer) => {
           if (!pointer || col?.row) return;
 
@@ -82,16 +117,12 @@ export class Board extends Phaser.GameObjects.Container {
 
           column.add(chip);
         },
-      });
+        onPointerOver: () => {
+          if (!isEmpty(col.row)) return;
 
-      // if (col.row) {
-      //   const centerRectangle = this.createCenterRectangle(
-      //     col.row,
-      //     width,
-      //     height
-      //   );
-      //   column.add(centerRectangle);
-      // }
+          column.changeColor(0xf9ca24, 0.3);
+        },
+      });
 
       accumulatedWidth += currentWidth;
 
@@ -101,11 +132,7 @@ export class Board extends Phaser.GameObjects.Container {
     return cols;
   }
 
-  private createSubRows(
-    rowsProps: RowElement[],
-    width: number,
-    height: number
-  ) {
+  private createSubRows(rowsProps: RowElement[], width: number) {
     // const imperHeight = (height * 83) / 100 / 3;
     // const parHeight = (height * 17) / 100 / 3;
     const imperHeight = 17;
@@ -124,15 +151,15 @@ export class Board extends Phaser.GameObjects.Container {
         scene: this.scene,
         x: 0,
         y: accumulatedHeight,
-        color: rowIndex % 2 === 0 ? 0xf9ca24 : 0x7ed6df,
+        color: rowIndex % 2 === 0 ? 0xff0000 : 0x7ed6df,
         boxWidth: width,
         boxHeight: currentHeight,
-        boxAlpha: 0,
+        boxAlpha: this.debug ? 0.2 : 0,
         // text: row.label,
       });
 
       if (row.col) {
-        const subColumns = this.createSubColumns(row.col, width, currentHeight);
+        const subColumns = this.createSubColumns(row.col, currentHeight);
         rowRect.add(subColumns);
       }
 
@@ -144,17 +171,24 @@ export class Board extends Phaser.GameObjects.Container {
     return rowsCenter;
   }
 
-  private createColumns(colProps: ColElement[], width: number, height: number) {
+  private createColumns(
+    colProps: ColElement[],
+    width: number,
+    height: number,
+    index: number
+  ) {
     const cols = colProps.map((col, colIndex) => {
+      const option = options.find((option) => option.key === col.key);
+
       const column = new RectangleContainer({
         scene: this.scene,
         x: width * colIndex,
         y: 0,
-        color: colIndex % 2 === 0 ? 0xf9ca24 : 0x7ed6df,
+        color: colIndex % 2 === 0 ? 0x7ed6df : 0x00ff00,
         boxWidth: width,
         boxHeight: height,
-        boxAlpha: 0,
-        // text: col.label,
+        boxAlpha: this.debug ? 0.3 : 0,
+        text: option?.alias,
         onClick: (pointer) => {
           if (!pointer) return;
 
@@ -163,10 +197,22 @@ export class Board extends Phaser.GameObjects.Container {
 
           column.add(chip);
         },
+        onPointerOver: () => {
+          if (!isEmpty(col?.col)) return;
+
+          if (index === 1) {
+            column.changeColor(0x7ed6df, 0.3, width, height + 10, 0, -10);
+
+            return;
+          }
+
+          column.changeColor(0xf9ca24, 0.3);
+        },
       });
 
       if (col.row) {
-        const centerRectangle = this.createSubRows(col.row, width, height);
+        const centerRectangle = this.createSubRows(col.row, width);
+
         column.add(centerRectangle);
       }
 
@@ -177,7 +223,9 @@ export class Board extends Phaser.GameObjects.Container {
   }
   private createRows(rows: Row[], width: number) {
     let accumulatedHeight = 0;
+
     const rowsContainer = rows.map((row, rowIndex) => {
+      const option = options.find((option) => option.key === row.key);
       const currentWidth = row.width || width;
       const bgColor = rowIndex % 2 === 0 ? 0xe67e22 : 0xf368e0;
 
@@ -188,15 +236,20 @@ export class Board extends Phaser.GameObjects.Container {
         color: bgColor,
         boxWidth: currentWidth,
         boxHeight: row.height || 0,
-        boxAlpha: 0,
-        // text: row.label,
+        boxAlpha: this.debug ? 0.2 : 0,
+        text: option?.alias,
         onClick: (pointer) => {
           if (!pointer) return;
 
-          if (row?.col) return;
+          if (!isEmpty(row?.col)) return;
           const chip = this.createChip(currentWidth / 2, row.height / 2);
 
           rowFigure.add(chip);
+        },
+        onPointerOver: () => {
+          if (!isEmpty(row?.col)) return;
+
+          rowFigure.changeColor(0xf9ca24, 0.3);
         },
       });
 
@@ -204,7 +257,8 @@ export class Board extends Phaser.GameObjects.Container {
         const columns = this.createColumns(
           row.col,
           currentWidth / row.col.length,
-          row.height || 0
+          row.height,
+          rowIndex
         );
         rowFigure.add(columns);
       }
@@ -217,55 +271,81 @@ export class Board extends Phaser.GameObjects.Container {
     return rowsContainer;
   }
 
+  private onClickOption(height: number, width: number, pointer?: PointerEvent) {
+    if (!pointer) return;
+    const chip = this.createChip(width / 2, height / 2);
+
+    return chip;
+  }
+  private mainColFigure(column: DrawerBoardCol, accumulatedWidth: number) {
+    const option = options.find((option) => option.key === column.key);
+
+    const onClick = (pointer?: PointerEvent) => {
+      if (!isEmpty(column.row)) return;
+
+      const chip = this.onClickOption(
+        column.height || 0,
+        column.width,
+        pointer
+      );
+
+      if (!chip) return;
+
+      columnFigure.add(chip);
+    };
+
+    const height = column.height || drawerBoard.height;
+    const debugMode = this.debug ? column.debugOpacity : 0;
+
+    const columnFigure =
+      column.type === BoardColFigure.POLYGON
+        ? new PolygonContainer({
+            scene: this.scene,
+            boxHeight: height,
+            boxWidth: column.width,
+            x: accumulatedWidth,
+            y: 0,
+            points: column.points || [],
+            // boxAlpha: debugMode,
+            // color: column.debugColor,
+            onClick: onClick,
+            onPointerOver: () => {
+              columnFigure.changeColor(0xf9ca24, 0.5, [
+                { x: 0, y: 130 },
+                { x: 26, y: 0 },
+                { x: 68, y: 0 },
+                { x: 68, y: 240 },
+                { x: 26, y: 240 },
+                { x: 0, y: 130 },
+              ]);
+            },
+            text: option?.alias,
+          })
+        : new RectangleContainer({
+            scene: this.scene,
+            boxHeight: height,
+            boxWidth: column.width,
+            x: accumulatedWidth,
+            y: 0,
+            boxAlpha: debugMode,
+            color: column.debugColor,
+          });
+
+    return columnFigure;
+  }
+
   private createMainColumns() {
     let accumulatedWidth = 0;
-    const columns = drawerBoard.cols.map((column, colIndex) => {
-      const handleClick = (pointer?: PointerEvent) => {
-        if (!pointer) return;
-        if (column?.row || !column.height) return;
-
-        const chip = this.createChip(column.width / 2, column.height / 2);
-
-        columnFigure.add(chip);
-      };
-
-      const height = column.height ? column.height : drawerBoard.height;
-      const alpha = 0;
-      const bgColor = colIndex % 2 === 0 ? 0x00ff00 : 0x0000ff;
-
-      const columnFigure =
-        column.type === BoardColFigure.POLYGON
-          ? new PolygonContainer({
-              boxHeight: height,
-              boxWidth: column.width,
-              color: bgColor,
-              scene: this.scene,
-              x: accumulatedWidth,
-              y: 0,
-              boxAlpha: alpha,
-              points: column.points || [],
-              onClick: handleClick,
-              // text: column.label,
-            })
-          : new RectangleContainer({
-              scene: this.scene,
-              x: accumulatedWidth,
-              y: 0,
-              color: bgColor,
-              boxWidth: column.width,
-              boxHeight: height,
-              boxAlpha: alpha,
-              onClick: handleClick,
-              // text: column.label,
-            });
+    const columns = drawerBoard.cols.map((column) => {
+      const figure = this.mainColFigure(column, accumulatedWidth);
 
       if (column?.row) {
-        columnFigure.add(this.createRows(column.row, column.width));
+        figure.add(this.createRows(column.row, column.width));
       }
 
       accumulatedWidth += column.width;
 
-      return columnFigure;
+      return figure;
     });
 
     return columns;
