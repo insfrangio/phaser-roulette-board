@@ -14,6 +14,7 @@ export interface DrawerBoardCol {
   width: number;
   height?: number;
   points?: Point[];
+  polygonHoverPoints?: Point[];
   debugColor: number;
   debugOpacity: number;
   row?: Row[];
@@ -38,6 +39,10 @@ export interface Row {
   col?: ColElement[];
   width?: number;
   key?: number;
+  hoverPoints?: {
+    height: number;
+    y: number;
+  };
 }
 
 export interface SubColElement {}

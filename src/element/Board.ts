@@ -1,14 +1,5 @@
 import { drawerBoard } from "../const";
-import {
-  cols,
-  filterOptions,
-  firstLine,
-  options,
-  secondLine,
-  secondLineThird,
-  square,
-  zeroOptions,
-} from "../mocked";
+import { options } from "../mocked";
 import {
   BoardColFigure,
   ColElement,
@@ -29,20 +20,13 @@ interface BoardConfig {
 
 export class Board extends Phaser.GameObjects.Container {
   private debug: boolean;
+  private options?: Array<Phaser.GameObjects.Container> = [];
 
   constructor(config: BoardConfig) {
     super(config.scene, config.x, config.y);
-    this.debug = config.debug || false;
+    this.debug = config.debug || true;
 
     this.create();
-
-    console.log("filterOptions", filterOptions);
-    console.log("zeroOptions", zeroOptions);
-    console.log("cols", cols);
-    console.log("firstLine", firstLine);
-    console.log("secondLine", secondLine);
-    console.log("square", square);
-    console.log("secondLineThird", secondLineThird);
 
     this.scene.add.existing(this);
   }
@@ -81,6 +65,7 @@ export class Board extends Phaser.GameObjects.Container {
       boxAlpha: this.debug ? debugOpacity : 0,
       boxWidth: width,
       boxHeight: height,
+      name: "mainRectangle",
     });
 
     const mainColumns = this.createMainColumns();
@@ -102,6 +87,7 @@ export class Board extends Phaser.GameObjects.Container {
       // console.log(option);
 
       const column = new RectangleContainer({
+        name: col.label,
         scene: this.scene,
         x: accumulatedWidth,
         y: 0,
@@ -120,7 +106,14 @@ export class Board extends Phaser.GameObjects.Container {
         onPointerOver: () => {
           if (!isEmpty(col.row)) return;
 
-          column.changeColor(0xf9ca24, 0.3);
+          if (option?.key === 49) {
+            this.options?.forEach((option) => {
+              option?.changeColor(0x0000ff, 0.3);
+            });
+            return;
+          }
+
+          column.changeColor(0x00ff00, 0.3);
         },
       });
 
@@ -148,6 +141,7 @@ export class Board extends Phaser.GameObjects.Container {
         : imperHeight;
 
       const rowRect = new RectangleContainer({
+        name: row.label,
         scene: this.scene,
         x: 0,
         y: accumulatedHeight,
@@ -175,12 +169,19 @@ export class Board extends Phaser.GameObjects.Container {
     colProps: ColElement[],
     width: number,
     height: number,
-    index: number
+    index: number,
+    hover?: { height: number; y: number }
   ) {
     const cols = colProps.map((col, colIndex) => {
       const option = options.find((option) => option.key === col.key);
 
+      // console.log("=>", col, {
+      //   heightHover: height + 10,
+      //   yHover: -10,
+      // });
+
       const column = new RectangleContainer({
+        name: col.label,
         scene: this.scene,
         x: width * colIndex,
         y: 0,
@@ -188,7 +189,7 @@ export class Board extends Phaser.GameObjects.Container {
         boxWidth: width,
         boxHeight: height,
         boxAlpha: this.debug ? 0.3 : 0,
-        text: option?.alias,
+        text: col.label || option?.alias || col.label,
         onClick: (pointer) => {
           if (!pointer) return;
 
@@ -200,13 +201,12 @@ export class Board extends Phaser.GameObjects.Container {
         onPointerOver: () => {
           if (!isEmpty(col?.col)) return;
 
-          if (index === 1) {
-            column.changeColor(0x7ed6df, 0.3, width, height + 10, 0, -10);
-
+          if (hover) {
+            column.changeColor(0xf9ca24, 0.8, width, hover.height, 0, hover.y);
             return;
           }
 
-          column.changeColor(0xf9ca24, 0.3);
+          column.changeColor(0xf9ca24, 0.8);
         },
       });
 
@@ -238,6 +238,7 @@ export class Board extends Phaser.GameObjects.Container {
         boxHeight: row.height || 0,
         boxAlpha: this.debug ? 0.2 : 0,
         text: option?.alias,
+        name: row.label,
         onClick: (pointer) => {
           if (!pointer) return;
 
@@ -258,7 +259,8 @@ export class Board extends Phaser.GameObjects.Container {
           row.col,
           currentWidth / row.col.length,
           row.height,
-          rowIndex
+          rowIndex,
+          row.hoverPoints
         );
         rowFigure.add(columns);
       }
@@ -277,9 +279,71 @@ export class Board extends Phaser.GameObjects.Container {
 
     return chip;
   }
-  private mainColFigure(column: DrawerBoardCol, accumulatedWidth: number) {
+
+  // private onHoverOptions(figure: PolygonContainer | RectangleContainer) {
+
+  //   figure.changeColor(0xf9ca24, 0.5);
+  // }
+
+  private createMainFigures({
+    column,
+    accumulatedWidth,
+    height,
+    onClick,
+  }: {
+    column: DrawerBoardCol;
+    accumulatedWidth: number;
+    height: number;
+    onClick: (pointer?: PointerEvent) => void;
+  }) {
+    const debugMode = this.debug ? column.debugOpacity : 0;
     const option = options.find((option) => option.key === column.key);
 
+    const polygonFigure = () => {
+      const figure = new PolygonContainer({
+        name: column.label,
+        scene: this.scene,
+        boxHeight: height,
+        boxWidth: column.width,
+        x: accumulatedWidth,
+        y: 0,
+        points: column.points || [],
+        onClick: onClick,
+        onPointerOver: () => {
+          figure.changeColor(0xf9ca24, 0.5, column.polygonHoverPoints);
+        },
+        text: option?.alias,
+      });
+
+      console.log({
+        figure,
+        options: this.options,
+      });
+      this.options?.push(figure);
+
+      return figure;
+    };
+
+    const rectFigure = () => {
+      const figure = new RectangleContainer({
+        scene: this.scene,
+        boxHeight: height,
+        boxWidth: column.width,
+        x: accumulatedWidth,
+        y: 0,
+        boxAlpha: debugMode,
+        color: column.debugColor,
+        name: column.label,
+      });
+
+      return figure;
+    };
+
+    return column.type === BoardColFigure.POLYGON
+      ? polygonFigure()
+      : rectFigure();
+  }
+  private mainColFigure(column: DrawerBoardCol, accumulatedWidth: number) {
     const onClick = (pointer?: PointerEvent) => {
       if (!isEmpty(column.row)) return;
 
@@ -295,41 +359,13 @@ export class Board extends Phaser.GameObjects.Container {
     };
 
     const height = column.height || drawerBoard.height;
-    const debugMode = this.debug ? column.debugOpacity : 0;
 
-    const columnFigure =
-      column.type === BoardColFigure.POLYGON
-        ? new PolygonContainer({
-            scene: this.scene,
-            boxHeight: height,
-            boxWidth: column.width,
-            x: accumulatedWidth,
-            y: 0,
-            points: column.points || [],
-            // boxAlpha: debugMode,
-            // color: column.debugColor,
-            onClick: onClick,
-            onPointerOver: () => {
-              columnFigure.changeColor(0xf9ca24, 0.5, [
-                { x: 0, y: 130 },
-                { x: 26, y: 0 },
-                { x: 68, y: 0 },
-                { x: 68, y: 240 },
-                { x: 26, y: 240 },
-                { x: 0, y: 130 },
-              ]);
-            },
-            text: option?.alias,
-          })
-        : new RectangleContainer({
-            scene: this.scene,
-            boxHeight: height,
-            boxWidth: column.width,
-            x: accumulatedWidth,
-            y: 0,
-            boxAlpha: debugMode,
-            color: column.debugColor,
-          });
+    const columnFigure = this.createMainFigures({
+      accumulatedWidth,
+      column,
+      height,
+      onClick,
+    });
 
     return columnFigure;
   }

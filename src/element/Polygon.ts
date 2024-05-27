@@ -1,3 +1,5 @@
+import { Point } from "../types";
+
 interface PolygonConfig {
   scene: Phaser.Scene;
   x: number;
@@ -10,7 +12,8 @@ interface PolygonConfig {
   onPointerOver?: (pointer?: PointerEvent) => void;
   onPointerOut?: (pointer?: PointerEvent) => void;
   text?: string;
-  points: string | number[] | Phaser.Types.Math.Vector2Like[];
+  points: Point[];
+  name: string;
 }
 
 export class PolygonContainer extends Phaser.GameObjects.Container {
@@ -20,7 +23,7 @@ export class PolygonContainer extends Phaser.GameObjects.Container {
   private boxWidth: number = 50;
   private boxHeight: number = 50;
   private boxAlpha: number = 1;
-  private points: string | number[] | Phaser.Types.Math.Vector2Like[];
+  private points: Point[];
   private onPointerOver?: (pointer?: PointerEvent) => void;
   private onPointerOut?: (pointer?: PointerEvent) => void;
   private graphics?: Phaser.GameObjects.Graphics;
@@ -28,6 +31,7 @@ export class PolygonContainer extends Phaser.GameObjects.Container {
   constructor(config: PolygonConfig) {
     super(config.scene, config.x, config.y);
 
+    this.setName(config.name);
     this.color = config.color;
     this.onClick = config.onClick;
     this.onPointerOver = config.onPointerOver;
@@ -78,14 +82,12 @@ export class PolygonContainer extends Phaser.GameObjects.Container {
       graphics.lineStyle(1, this.color, this.color ? this.boxAlpha : 0);
     }
 
+    graphics.setName(`${this.name}-graphics`);
+
     return graphics;
   }
 
-  public changeColor(
-    color: number,
-    alpha: number = 1,
-    points?: number[] | Phaser.Types.Math.Vector2Like[]
-  ) {
+  public changeColor(color: number, alpha: number = 1, points?: Point[]) {
     if (this.graphics) {
       this.graphics.clear();
       this.graphics.fillStyle(color, alpha);

@@ -10,6 +10,7 @@ interface RectangleConfig {
   onPointerOver?: (pointer?: PointerEvent) => void;
   onPointerOut?: (pointer?: PointerEvent) => void;
   text?: string;
+  name: string;
 }
 
 export class RectangleContainer extends Phaser.GameObjects.Container {
@@ -26,6 +27,7 @@ export class RectangleContainer extends Phaser.GameObjects.Container {
   constructor(config: RectangleConfig) {
     super(config.scene, config.x, config.y);
 
+    this.setName(config.name);
     this.color = config.color;
     this.onClick = config.onClick;
     this.onPointerOver = config.onPointerOver;
@@ -79,6 +81,8 @@ export class RectangleContainer extends Phaser.GameObjects.Container {
     if (typeof this.color === "number") {
       graphics.lineStyle(1, this.color, this.color ? this.boxAlpha : 0);
     }
+
+    graphics.setName(`${this.name}-graphics`);
 
     return graphics;
   }

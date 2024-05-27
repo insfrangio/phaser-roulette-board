@@ -42,6 +42,7 @@ const mainRowB = [
                 width: widthSquare,
                 height: 254,
                 y: 0,
+                hoverPoints: ["A"],
               },
               {
                 key: 3,
@@ -223,7 +224,7 @@ const mainRowB = [
                 key: 36,
                 label: "X",
                 value: 0,
-                width: widthRectangle + 16,
+                width: widthRectangle + 14,
                 height: 254,
                 y: 0,
               },
@@ -422,7 +423,7 @@ const mainRowB = [
                 key: 84,
                 label: "AV",
                 value: 0,
-                width: widthRectangle + 16,
+                width: widthRectangle + 14,
                 height: 254,
                 y: 0,
               },
@@ -621,7 +622,7 @@ const mainRowB = [
                 key: 35,
                 label: "BT",
                 value: 0,
-                width: widthRectangle + 16,
+                width: widthRectangle + 14,
                 height: 254,
                 y: 0,
               },
@@ -820,7 +821,7 @@ const mainRowB = [
                 key: 120,
                 label: "CR",
                 value: 0,
-                width: widthRectangle + 16,
+                width: widthRectangle + 14,
                 height: 254,
                 y: 0,
               },
@@ -1019,7 +1020,7 @@ const mainRowB = [
                 key: 34,
                 label: "DP",
                 value: 0,
-                width: widthRectangle + 16,
+                width: widthRectangle + 14,
                 height: 254,
                 y: 0,
               },
@@ -1218,7 +1219,7 @@ const mainRowB = [
                 key: 156,
                 label: "EN",
                 value: 0,
-                width: widthRectangle + 16,
+                width: widthRectangle + 14,
                 height: 254,
                 y: 0,
               },
@@ -1234,6 +1235,10 @@ const mainRowB = [
     height: 51,
     width: 942,
     x: 5,
+    hoverPoints: {
+      height: 58,
+      y: -6,
+    },
     col: [
       { label: "BBA", value: 0, height: 254, y: 0, key: 40 },
       { label: "BBB", value: 0, height: 254, y: 0, key: 41 },
@@ -1272,13 +1277,23 @@ const polygonPoints = [
   { x: 0, y: 130 },
 ];
 
+const polygonHoverPoints = [
+  { x: 0, y: 130 },
+  { x: 26, y: 0 },
+  { x: 68, y: 0 },
+  { x: 68, y: 240 },
+  { x: 26, y: 240 },
+  { x: 0, y: 130 },
+];
+
 const mainCols = [
   {
-    label: "0",
+    label: "A",
     type: BoardColFigure.POLYGON,
     width: 62,
     height: 240,
     points: polygonPoints,
+    hoverPoints: polygonHoverPoints,
     debugColor: 0x0000ff,
     debugOpacity: 0.5,
     key: 0,
