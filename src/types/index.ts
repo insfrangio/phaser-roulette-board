@@ -9,7 +9,7 @@ export interface DrawerBoard {
 }
 
 export interface DrawerBoardCol {
-  label: string;
+  name: string;
   type: BoardColFigure;
   width: number;
   height?: number;
@@ -32,7 +32,7 @@ export interface Point {
 }
 
 export interface Row {
-  label: string;
+  name: string;
   value: number;
   height: number;
   x: number;
@@ -48,7 +48,7 @@ export interface Row {
 export interface SubColElement {}
 
 export interface ColElement {
-  label: string;
+  name: string;
   value: number;
   height?: number;
   y: number;
@@ -59,7 +59,7 @@ export interface ColElement {
 }
 
 export interface RowElement {
-  label: string;
+  name: string;
   value: number;
   height?: number;
   y: number;

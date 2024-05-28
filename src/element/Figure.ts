@@ -1,4 +1,6 @@
-interface RectangleConfig {
+import { BoardColFigure, Point } from "../types";
+
+interface BaseConfig {
   scene: Phaser.Scene;
   x: number;
   y: number;
@@ -11,9 +13,21 @@ interface RectangleConfig {
   onPointerOut?: (pointer?: PointerEvent) => void;
   text?: string;
   name: string;
+  format: BoardColFigure;
+  // format: "rectangle" | "polygon";
 }
 
-export class RectangleContainer extends Phaser.GameObjects.Container {
+// interface PolygonSpecificConfig {
+//   points: Point[];
+// }
+
+type FigureConfig = BaseConfig &
+  (
+    | { format: BoardColFigure.RECTANGLE; points?: never }
+    | { format: BoardColFigure.POLYGON; points?: Point[] }
+  );
+
+export class Figure extends Phaser.GameObjects.Container {
   private color?: number;
   private onClick?: (pointer: PointerEvent) => void;
   private text?: string;
@@ -23,8 +37,10 @@ export class RectangleContainer extends Phaser.GameObjects.Container {
   private onPointerOver?: (pointer?: PointerEvent) => void;
   private onPointerOut?: (pointer?: PointerEvent) => void;
   private graphics?: Phaser.GameObjects.Graphics;
+  private format: BoardColFigure = BoardColFigure.RECTANGLE;
+  private points?: Point[] = [];
 
-  constructor(config: RectangleConfig) {
+  constructor(config: FigureConfig) {
     super(config.scene, config.x, config.y);
 
     this.setName(config.name);
@@ -36,6 +52,8 @@ export class RectangleContainer extends Phaser.GameObjects.Container {
     this.boxWidth = config.boxWidth;
     this.boxHeight = config.boxHeight;
     this.boxAlpha = typeof config.boxAlpha === "number" ? config.boxAlpha : 1;
+    this.format = config.format;
+    this.points = config.points ? config.points : [];
 
     this.create();
 
@@ -43,14 +61,22 @@ export class RectangleContainer extends Phaser.GameObjects.Container {
   }
 
   private create() {
-    const rect = this.createRectangle();
+    const figure =
+      this.format === BoardColFigure.RECTANGLE
+        ? this.createRectangle()
+        : this.createPolygon();
+
     const graphics = this.createGraphics();
     this.graphics = graphics;
 
-    graphics.fillRectShape(rect);
+    if (figure instanceof Phaser.Geom.Polygon) {
+      graphics.fillPoints(figure.points, true);
+    } else {
+      graphics.fillRectShape(figure);
+    }
 
     if (this.onClick) {
-      this.addInteractive(graphics, rect);
+      this.addInteractive(graphics, figure);
     }
 
     // const container = this.scene.add.container(this.x, this.y);
@@ -71,6 +97,12 @@ export class RectangleContainer extends Phaser.GameObjects.Container {
     const rect = new Phaser.Geom.Rectangle(x, y, width, height);
 
     return rect;
+  }
+
+  private createPolygon() {
+    const polygon = new Phaser.Geom.Polygon(this.points);
+
+    return polygon;
   }
 
   private createGraphics() {
@@ -108,9 +140,14 @@ export class RectangleContainer extends Phaser.GameObjects.Container {
 
   private addInteractive(
     graphics: Phaser.GameObjects.Graphics,
-    rect: Phaser.Geom.Rectangle
+    rect: Phaser.Geom.Rectangle | Phaser.Geom.Polygon
   ) {
-    graphics.setInteractive(rect, Phaser.Geom.Rectangle.Contains);
+    const contains =
+      this.format === BoardColFigure.RECTANGLE
+        ? Phaser.Geom.Rectangle.Contains
+        : Phaser.Geom.Polygon.Contains;
+
+    graphics.setInteractive(rect, contains);
     graphics.on("pointerdown", (pointer: PointerEvent) => {
       this.onClick?.(pointer);
     });

@@ -1,4 +1,4 @@
-import { RectangleContainer } from "./Rectangle";
+import { RectangleContainer } from "./Figure";
 
 interface MainRectangleConfig {
   scene: Phaser.Scene;

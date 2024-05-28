@@ -1,2 +1,2 @@
-export { RectangleContainer } from "./Rectangle";
+export { Figure } from "./Figure";
 export { Board } from "./Board";
