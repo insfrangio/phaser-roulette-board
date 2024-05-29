@@ -1,4 +1,4 @@
-import { BoardColFigure, DrawerBoard } from "../types";
+import { BoardColFigure, DrawingBoard } from "../types";
 
 // const generateRow = (start: number, end: number) => {
 //   const row = [];
@@ -25,13 +25,13 @@ const mainRowB = [
     x: 0,
     col: [
       {
-        name: "BAA",
+        name: "ROW_A-COL_A",
         value: 0,
         height: 0,
         y: 0,
         row: [
           {
-            name: "BAAA",
+            name: "COL_A-ROW_A",
             value: 0,
             height: 71,
             y: 0,
@@ -43,7 +43,7 @@ const mainRowB = [
                 width: widthSquare,
                 height: 254,
                 y: 0,
-                hoverOptions: ["A"],
+                hoverOptions: ["A", "A0"],
               },
               {
                 key: 3,
@@ -62,10 +62,6 @@ const mainRowB = [
                 height: 254,
                 y: 0,
                 hoverOptions: ["A", "B"],
-                hoverPoints: {
-                  width: widthSquare + 10,
-                  height: 254,
-                },
               },
               {
                 key: 6,
@@ -259,7 +255,7 @@ const mainRowB = [
             ],
           },
           {
-            name: "BAAB",
+            name: "COL_A-ROW_B",
             value: 0,
             y: 0,
             col: [
@@ -270,7 +266,7 @@ const mainRowB = [
                 width: widthSquare,
                 height: 254,
                 y: 0,
-                hoverOptions: ["A", "M"],
+                hoverOptions: ["A0", "A", "M"],
               },
               {
                 key: 62,
@@ -297,6 +293,7 @@ const mainRowB = [
                 width: widthRectangle,
                 height: 254,
                 y: 0,
+                hoverOptions: ["B", "N"],
               },
               {
                 key: 65,
@@ -305,6 +302,7 @@ const mainRowB = [
                 width: widthSquare,
                 height: 254,
                 y: 0,
+                hoverOptions: ["B", "C", "N", "O"],
               },
               {
                 key: 66,
@@ -313,6 +311,7 @@ const mainRowB = [
                 width: widthRectangle,
                 height: 254,
                 y: 0,
+                hoverOptions: ["C", "O"],
               },
               {
                 key: 67,
@@ -321,6 +320,7 @@ const mainRowB = [
                 width: widthSquare,
                 height: 254,
                 y: 0,
+                hoverOptions: ["C", "D", "O", "P"],
               },
               {
                 key: 68,
@@ -329,6 +329,7 @@ const mainRowB = [
                 width: widthRectangle,
                 height: 254,
                 y: 0,
+                hoverOptions: ["D", "P"],
               },
               {
                 key: 69,
@@ -337,6 +338,7 @@ const mainRowB = [
                 width: widthSquare,
                 height: 254,
                 y: 0,
+                hoverOptions: ["D", "E", "P", "Q"],
               },
               {
                 key: 70,
@@ -345,6 +347,7 @@ const mainRowB = [
                 width: widthRectangle,
                 height: 254,
                 y: 0,
+                hoverOptions: ["E", "Q"],
               },
               {
                 key: 71,
@@ -353,6 +356,7 @@ const mainRowB = [
                 width: widthSquare,
                 height: 254,
                 y: 0,
+                hoverOptions: ["E", "F", "Q", "R"],
               },
               {
                 key: 72,
@@ -361,6 +365,7 @@ const mainRowB = [
                 width: widthRectangle,
                 height: 254,
                 y: 0,
+                hoverOptions: ["F", "R"],
               },
               {
                 key: 73,
@@ -369,6 +374,7 @@ const mainRowB = [
                 width: widthSquare,
                 height: 254,
                 y: 0,
+                hoverOptions: ["F", "G", "R", "S"],
               },
               {
                 key: 74,
@@ -377,6 +383,7 @@ const mainRowB = [
                 width: widthRectangle,
                 height: 254,
                 y: 0,
+                hoverOptions: ["G", "S"],
               },
               {
                 key: 75,
@@ -385,6 +392,7 @@ const mainRowB = [
                 width: widthSquare,
                 height: 254,
                 y: 0,
+                hoverOptions: ["G", "H", "S", "T"],
               },
               {
                 key: 76,
@@ -393,6 +401,7 @@ const mainRowB = [
                 width: widthRectangle,
                 height: 254,
                 y: 0,
+                hoverOptions: ["H", "T"],
               },
               {
                 key: 77,
@@ -401,6 +410,7 @@ const mainRowB = [
                 width: widthSquare,
                 height: 254,
                 y: 0,
+                hoverOptions: ["H", "I", "T", "U"],
               },
               {
                 key: 78,
@@ -409,6 +419,7 @@ const mainRowB = [
                 width: widthRectangle,
                 height: 254,
                 y: 0,
+                hoverOptions: ["I", "U"],
               },
               {
                 key: 79,
@@ -417,6 +428,7 @@ const mainRowB = [
                 width: widthSquare,
                 height: 254,
                 y: 0,
+                hoverOptions: ["I", "J", "U", "V"],
               },
               {
                 key: 80,
@@ -425,6 +437,7 @@ const mainRowB = [
                 width: widthRectangle,
                 height: 254,
                 y: 0,
+                hoverOptions: ["J", "V"],
               },
               {
                 key: 81,
@@ -433,6 +446,7 @@ const mainRowB = [
                 width: widthSquare,
                 height: 254,
                 y: 0,
+                hoverOptions: ["J", "K", "V", "W"],
               },
               {
                 key: 82,
@@ -441,6 +455,7 @@ const mainRowB = [
                 width: widthRectangle,
                 height: 254,
                 y: 0,
+                hoverOptions: ["K", "W"],
               },
               {
                 key: 83,
@@ -449,6 +464,7 @@ const mainRowB = [
                 width: widthSquare,
                 height: 254,
                 y: 0,
+                hoverOptions: ["K", "L", "W", "X"],
               },
               {
                 key: 84,
@@ -457,11 +473,12 @@ const mainRowB = [
                 width: widthRectangle + 14,
                 height: 254,
                 y: 0,
+                hoverOptions: ["L", "X"],
               },
             ],
           },
           {
-            name: "BAAC",
+            name: "COL_A-ROW_C",
             value: 0,
             y: 0,
             col: [
@@ -472,6 +489,7 @@ const mainRowB = [
                 width: widthSquare,
                 height: 254,
                 y: 0,
+                hoverOptions: ["A0", "M"],
               },
               {
                 key: 2,
@@ -480,6 +498,7 @@ const mainRowB = [
                 width: widthRectangle,
                 height: 254,
                 y: 0,
+                hoverOptions: ["M"],
               },
               {
                 key: 86,
@@ -488,6 +507,7 @@ const mainRowB = [
                 width: widthSquare,
                 height: 254,
                 y: 0,
+                hoverOptions: ["M", "N"],
               },
               {
                 key: 5,
@@ -496,6 +516,7 @@ const mainRowB = [
                 width: widthRectangle,
                 height: 254,
                 y: 0,
+                hoverOptions: ["N"],
               },
               {
                 key: 87,
@@ -504,6 +525,7 @@ const mainRowB = [
                 width: widthSquare,
                 height: 254,
                 y: 0,
+                hoverOptions: ["N", "O"],
               },
               {
                 key: 8,
@@ -512,6 +534,7 @@ const mainRowB = [
                 width: widthRectangle,
                 height: 254,
                 y: 0,
+                hoverOptions: ["O"],
               },
               {
                 key: 88,
@@ -520,6 +543,7 @@ const mainRowB = [
                 width: widthSquare,
                 height: 254,
                 y: 0,
+                hoverOptions: ["O", "P"],
               },
               {
                 key: 11,
@@ -528,6 +552,7 @@ const mainRowB = [
                 width: widthRectangle,
                 height: 254,
                 y: 0,
+                hoverOptions: ["P"],
               },
               {
                 key: 89,
@@ -536,6 +561,7 @@ const mainRowB = [
                 width: widthSquare,
                 height: 254,
                 y: 0,
+                hoverOptions: ["P", "Q"],
               },
               {
                 key: 14,
@@ -544,6 +570,7 @@ const mainRowB = [
                 width: widthRectangle,
                 height: 254,
                 y: 0,
+                hoverOptions: ["Q"],
               },
               {
                 key: 90,
@@ -552,6 +579,7 @@ const mainRowB = [
                 width: widthSquare,
                 height: 254,
                 y: 0,
+                hoverOptions: ["Q", "R"],
               },
               {
                 key: 17,
@@ -560,6 +588,7 @@ const mainRowB = [
                 width: widthRectangle,
                 height: 254,
                 y: 0,
+                hoverOptions: ["R"],
               },
               {
                 key: 91,
@@ -568,6 +597,7 @@ const mainRowB = [
                 width: widthSquare,
                 height: 254,
                 y: 0,
+                hoverOptions: ["R", "S"],
               },
               {
                 key: 20,
@@ -576,6 +606,7 @@ const mainRowB = [
                 width: widthRectangle,
                 height: 254,
                 y: 0,
+                hoverOptions: ["S"],
               },
               {
                 key: 92,
@@ -584,6 +615,7 @@ const mainRowB = [
                 width: widthSquare,
                 height: 254,
                 y: 0,
+                hoverOptions: ["S", "T"],
               },
               {
                 key: 23,
@@ -592,6 +624,7 @@ const mainRowB = [
                 width: widthRectangle,
                 height: 254,
                 y: 0,
+                hoverOptions: ["T"],
               },
               {
                 key: 93,
@@ -600,6 +633,7 @@ const mainRowB = [
                 width: widthSquare,
                 height: 254,
                 y: 0,
+                hoverOptions: ["T", "U"],
               },
               {
                 key: 26,
@@ -608,6 +642,7 @@ const mainRowB = [
                 width: widthRectangle,
                 height: 254,
                 y: 0,
+                hoverOptions: ["U"],
               },
               {
                 key: 94,
@@ -616,6 +651,7 @@ const mainRowB = [
                 width: widthSquare,
                 height: 254,
                 y: 0,
+                hoverOptions: ["U", "V"],
               },
               {
                 key: 29,
@@ -624,6 +660,7 @@ const mainRowB = [
                 width: widthRectangle,
                 height: 254,
                 y: 0,
+                hoverOptions: ["V"],
               },
               {
                 key: 95,
@@ -632,6 +669,7 @@ const mainRowB = [
                 width: widthSquare,
                 height: 254,
                 y: 0,
+                hoverOptions: ["V", "W"],
               },
               {
                 key: 32,
@@ -640,6 +678,7 @@ const mainRowB = [
                 width: widthRectangle,
                 height: 254,
                 y: 0,
+                hoverOptions: ["W"],
               },
               {
                 key: 96,
@@ -648,6 +687,7 @@ const mainRowB = [
                 width: widthSquare,
                 height: 254,
                 y: 0,
+                hoverOptions: ["W", "X"],
               },
               {
                 key: 35,
@@ -656,11 +696,12 @@ const mainRowB = [
                 width: widthRectangle + 14,
                 height: 254,
                 y: 0,
+                hoverOptions: ["X"],
               },
             ],
           },
           {
-            name: "BAAD",
+            name: "COL_A-ROW_D",
             value: 0,
             y: 0,
             col: [
@@ -671,6 +712,7 @@ const mainRowB = [
                 width: widthSquare,
                 height: 254,
                 y: 0,
+                hoverOptions: ["A0", "M", "Y"],
               },
               {
                 key: 98,
@@ -679,6 +721,7 @@ const mainRowB = [
                 width: widthRectangle,
                 height: 254,
                 y: 0,
+                hoverOptions: ["M", "Y"],
               },
               {
                 key: 99,
@@ -687,6 +730,7 @@ const mainRowB = [
                 width: widthSquare,
                 height: 254,
                 y: 0,
+                hoverOptions: ["M", "N", "Y", "Z"],
               },
               {
                 key: 100,
@@ -695,6 +739,7 @@ const mainRowB = [
                 width: widthRectangle,
                 height: 254,
                 y: 0,
+                hoverOptions: ["N", "Z"],
               },
               {
                 key: 101,
@@ -703,6 +748,7 @@ const mainRowB = [
                 width: widthSquare,
                 height: 254,
                 y: 0,
+                hoverOptions: ["N", "O", "Z", "AA"],
               },
               {
                 key: 102,
@@ -711,6 +757,7 @@ const mainRowB = [
                 width: widthRectangle,
                 height: 254,
                 y: 0,
+                hoverOptions: ["O", "AA"],
               },
               {
                 key: 103,
@@ -719,6 +766,7 @@ const mainRowB = [
                 width: widthSquare,
                 height: 254,
                 y: 0,
+                hoverOptions: ["O", "P", "AA", "AB"],
               },
               {
                 key: 104,
@@ -727,6 +775,7 @@ const mainRowB = [
                 width: widthRectangle,
                 height: 254,
                 y: 0,
+                hoverOptions: ["P", "AB"],
               },
               {
                 key: 105,
@@ -735,6 +784,7 @@ const mainRowB = [
                 width: widthSquare,
                 height: 254,
                 y: 0,
+                hoverOptions: ["P", "Q", "AB", "AC"],
               },
               {
                 key: 106,
@@ -743,6 +793,7 @@ const mainRowB = [
                 width: widthRectangle,
                 height: 254,
                 y: 0,
+                hoverOptions: ["Q", "AC"],
               },
               {
                 key: 107,
@@ -751,6 +802,7 @@ const mainRowB = [
                 width: widthSquare,
                 height: 254,
                 y: 0,
+                hoverOptions: ["Q", "R", "AC", "AD"],
               },
               {
                 key: 108,
@@ -759,6 +811,7 @@ const mainRowB = [
                 width: widthRectangle,
                 height: 254,
                 y: 0,
+                hoverOptions: ["R", "AD"],
               },
               {
                 key: 109,
@@ -767,6 +820,7 @@ const mainRowB = [
                 width: widthSquare,
                 height: 254,
                 y: 0,
+                hoverOptions: ["R", "S", "AD", "AE"],
               },
               {
                 key: 110,
@@ -775,6 +829,7 @@ const mainRowB = [
                 width: widthRectangle,
                 height: 254,
                 y: 0,
+                hoverOptions: ["S", "AE"],
               },
               {
                 key: 111,
@@ -783,6 +838,7 @@ const mainRowB = [
                 width: widthSquare,
                 height: 254,
                 y: 0,
+                hoverOptions: ["S", "T", "AE", "AF"],
               },
               {
                 key: 112,
@@ -791,6 +847,7 @@ const mainRowB = [
                 width: widthRectangle,
                 height: 254,
                 y: 0,
+                hoverOptions: ["T", "AF"],
               },
               {
                 key: 113,
@@ -799,6 +856,7 @@ const mainRowB = [
                 width: widthSquare,
                 height: 254,
                 y: 0,
+                hoverOptions: ["T", "U", "AF", "AG"],
               },
               {
                 key: 114,
@@ -807,6 +865,7 @@ const mainRowB = [
                 width: widthRectangle,
                 height: 254,
                 y: 0,
+                hoverOptions: ["U", "AG"],
               },
               {
                 key: 115,
@@ -815,6 +874,7 @@ const mainRowB = [
                 width: widthSquare,
                 height: 254,
                 y: 0,
+                hoverOptions: ["U", "V", "AG", "AH"],
               },
               {
                 key: 116,
@@ -823,6 +883,7 @@ const mainRowB = [
                 width: widthRectangle,
                 height: 254,
                 y: 0,
+                hoverOptions: ["V", "AH"],
               },
               {
                 key: 117,
@@ -831,6 +892,7 @@ const mainRowB = [
                 width: widthSquare,
                 height: 254,
                 y: 0,
+                hoverOptions: ["V", "W", "AH", "AI"],
               },
               {
                 key: 118,
@@ -839,6 +901,7 @@ const mainRowB = [
                 width: widthRectangle,
                 height: 254,
                 y: 0,
+                hoverOptions: ["W", "AI"],
               },
               {
                 key: 119,
@@ -847,6 +910,7 @@ const mainRowB = [
                 width: widthSquare,
                 height: 254,
                 y: 0,
+                hoverOptions: ["W", "X", "AI", "AJ"],
               },
               {
                 key: 120,
@@ -855,11 +919,12 @@ const mainRowB = [
                 width: widthRectangle + 14,
                 height: 254,
                 y: 0,
+                hoverOptions: ["X", "AJ"],
               },
             ],
           },
           {
-            name: "BAAE",
+            name: "COL_A-ROW_E",
             value: 0,
             y: 0,
             col: [
@@ -870,6 +935,7 @@ const mainRowB = [
                 width: widthSquare,
                 height: 254,
                 y: 0,
+                hoverOptions: ["A0", "Y"],
               },
               {
                 key: 1,
@@ -878,6 +944,7 @@ const mainRowB = [
                 width: widthRectangle,
                 height: 254,
                 y: 0,
+                hoverOptions: ["Y"],
               },
               {
                 key: 122,
@@ -886,6 +953,7 @@ const mainRowB = [
                 width: widthSquare,
                 height: 254,
                 y: 0,
+                hoverOptions: ["Y", "Z"],
               },
               {
                 key: 4,
@@ -894,6 +962,7 @@ const mainRowB = [
                 width: widthRectangle,
                 height: 254,
                 y: 0,
+                hoverOptions: ["Z"],
               },
               {
                 key: 123,
@@ -902,6 +971,7 @@ const mainRowB = [
                 width: widthSquare,
                 height: 254,
                 y: 0,
+                hoverOptions: ["Z", "AA"],
               },
               {
                 key: 7,
@@ -910,6 +980,7 @@ const mainRowB = [
                 width: widthRectangle,
                 height: 254,
                 y: 0,
+                hoverOptions: ["AA"],
               },
               {
                 key: 124,
@@ -918,6 +989,7 @@ const mainRowB = [
                 width: widthSquare,
                 height: 254,
                 y: 0,
+                hoverOptions: ["AA", "AB"],
               },
               {
                 key: 10,
@@ -926,6 +998,7 @@ const mainRowB = [
                 width: widthRectangle,
                 height: 254,
                 y: 0,
+                hoverOptions: ["AB"],
               },
               {
                 key: 125,
@@ -934,6 +1007,7 @@ const mainRowB = [
                 width: widthSquare,
                 height: 254,
                 y: 0,
+                hoverOptions: ["AB", "AC"],
               },
               {
                 key: 13,
@@ -942,6 +1016,7 @@ const mainRowB = [
                 width: widthRectangle,
                 height: 254,
                 y: 0,
+                hoverOptions: ["AC"],
               },
               {
                 key: 126,
@@ -950,6 +1025,7 @@ const mainRowB = [
                 width: widthSquare,
                 height: 254,
                 y: 0,
+                hoverOptions: ["AC", "AD"],
               },
               {
                 key: 16,
@@ -958,6 +1034,7 @@ const mainRowB = [
                 width: widthRectangle,
                 height: 254,
                 y: 0,
+                hoverOptions: ["AD"],
               },
               {
                 key: 127,
@@ -966,6 +1043,7 @@ const mainRowB = [
                 width: widthSquare,
                 height: 254,
                 y: 0,
+                hoverOptions: ["AD", "AE"],
               },
               {
                 key: 19,
@@ -974,6 +1052,7 @@ const mainRowB = [
                 width: widthRectangle,
                 height: 254,
                 y: 0,
+                hoverOptions: ["AE"],
               },
               {
                 key: 128,
@@ -982,6 +1061,7 @@ const mainRowB = [
                 width: widthSquare,
                 height: 254,
                 y: 0,
+                hoverOptions: ["AE", "AF"],
               },
               {
                 key: 22,
@@ -990,6 +1070,7 @@ const mainRowB = [
                 width: widthRectangle,
                 height: 254,
                 y: 0,
+                hoverOptions: ["AF"],
               },
               {
                 key: 129,
@@ -998,6 +1079,7 @@ const mainRowB = [
                 width: widthSquare,
                 height: 254,
                 y: 0,
+                hoverOptions: ["AF", "AG"],
               },
               {
                 key: 25,
@@ -1006,6 +1088,7 @@ const mainRowB = [
                 width: widthRectangle,
                 height: 254,
                 y: 0,
+                hoverOptions: ["AG"],
               },
               {
                 key: 130,
@@ -1014,6 +1097,7 @@ const mainRowB = [
                 width: widthSquare,
                 height: 254,
                 y: 0,
+                hoverOptions: ["AG", "AH"],
               },
               {
                 key: 28,
@@ -1022,6 +1106,7 @@ const mainRowB = [
                 width: widthRectangle,
                 height: 254,
                 y: 0,
+                hoverOptions: ["AH"],
               },
               {
                 key: 131,
@@ -1030,6 +1115,7 @@ const mainRowB = [
                 width: widthSquare,
                 height: 254,
                 y: 0,
+                hoverOptions: ["AH", "AI"],
               },
               {
                 key: 31,
@@ -1038,6 +1124,7 @@ const mainRowB = [
                 width: widthRectangle,
                 height: 254,
                 y: 0,
+                hoverOptions: ["AI"],
               },
               {
                 key: 132,
@@ -1046,6 +1133,7 @@ const mainRowB = [
                 width: widthSquare,
                 height: 254,
                 y: 0,
+                hoverOptions: ["AI", "AJ"],
               },
               {
                 key: 34,
@@ -1054,11 +1142,12 @@ const mainRowB = [
                 width: widthRectangle + 14,
                 height: 254,
                 y: 0,
+                hoverOptions: ["AJ"],
               },
             ],
           },
           {
-            name: "BAAF",
+            name: "COL_A-ROW_F",
             value: 0,
             y: 0,
             col: [
@@ -1069,6 +1158,7 @@ const mainRowB = [
                 width: widthSquare,
                 height: 254,
                 y: 0,
+                hoverOptions: ["A0", "A", "M", "Y"],
               },
               {
                 key: 134,
@@ -1077,6 +1167,7 @@ const mainRowB = [
                 width: widthRectangle,
                 height: 254,
                 y: 0,
+                hoverOptions: ["A", "M", "Y"],
               },
               {
                 key: 135,
@@ -1085,6 +1176,7 @@ const mainRowB = [
                 width: widthSquare,
                 height: 254,
                 y: 0,
+                hoverOptions: ["A", "B", "M", "N", "Y", "Z"],
               },
               {
                 key: 136,
@@ -1093,6 +1185,7 @@ const mainRowB = [
                 width: widthRectangle,
                 height: 254,
                 y: 0,
+                hoverOptions: ["B", "N", "Z"],
               },
               {
                 key: 137,
@@ -1101,6 +1194,7 @@ const mainRowB = [
                 width: widthSquare,
                 height: 254,
                 y: 0,
+                hoverOptions: ["B", "C", "N", "O", "Z", "AA"],
               },
               {
                 key: 138,
@@ -1109,6 +1203,7 @@ const mainRowB = [
                 width: widthRectangle,
                 height: 254,
                 y: 0,
+                hoverOptions: ["C", "O", "AA"],
               },
               {
                 key: 139,
@@ -1117,6 +1212,7 @@ const mainRowB = [
                 width: widthSquare,
                 height: 254,
                 y: 0,
+                hoverOptions: ["C", "D", "O", "P", "AA", "AB"],
               },
               {
                 key: 140,
@@ -1125,6 +1221,7 @@ const mainRowB = [
                 width: widthRectangle,
                 height: 254,
                 y: 0,
+                hoverOptions: ["D", "P", "AB"],
               },
               {
                 key: 141,
@@ -1133,6 +1230,7 @@ const mainRowB = [
                 width: widthSquare,
                 height: 254,
                 y: 0,
+                hoverOptions: ["D", "E", "P", "Q", "AB", "AC"],
               },
               {
                 key: 142,
@@ -1141,6 +1239,7 @@ const mainRowB = [
                 width: widthRectangle,
                 height: 254,
                 y: 0,
+                hoverOptions: ["E", "Q", "AC"],
               },
               {
                 key: 143,
@@ -1149,6 +1248,7 @@ const mainRowB = [
                 width: widthSquare,
                 height: 254,
                 y: 0,
+                hoverOptions: ["E", "F", "Q", "R", "AC", "AD"],
               },
               {
                 key: 144,
@@ -1157,6 +1257,7 @@ const mainRowB = [
                 width: widthRectangle,
                 height: 254,
                 y: 0,
+                hoverOptions: ["F", "R", "AD"],
               },
               {
                 key: 145,
@@ -1165,6 +1266,7 @@ const mainRowB = [
                 width: widthSquare,
                 height: 254,
                 y: 0,
+                hoverOptions: ["F", "G", "R", "S", "AD", "AE"],
               },
               {
                 key: 146,
@@ -1173,6 +1275,7 @@ const mainRowB = [
                 width: widthRectangle,
                 height: 254,
                 y: 0,
+                hoverOptions: ["G", "S", "AE"],
               },
               {
                 key: 147,
@@ -1181,6 +1284,7 @@ const mainRowB = [
                 width: widthSquare,
                 height: 254,
                 y: 0,
+                hoverOptions: ["G", "H", "S", "T", "AE", "AF"],
               },
               {
                 key: 148,
@@ -1189,6 +1293,7 @@ const mainRowB = [
                 width: widthRectangle,
                 height: 254,
                 y: 0,
+                hoverOptions: ["H", "T", "AF"],
               },
               {
                 key: 149,
@@ -1197,6 +1302,7 @@ const mainRowB = [
                 width: widthSquare,
                 height: 254,
                 y: 0,
+                hoverOptions: ["H", "I", "T", "U", "AF", "AG"],
               },
               {
                 key: 150,
@@ -1205,6 +1311,7 @@ const mainRowB = [
                 width: widthRectangle,
                 height: 254,
                 y: 0,
+                hoverOptions: ["I", "U", "AG"],
               },
               {
                 key: 151,
@@ -1213,6 +1320,7 @@ const mainRowB = [
                 width: widthSquare,
                 height: 254,
                 y: 0,
+                hoverOptions: ["I", "J", "U", "V", "AG", "AH"],
               },
               {
                 key: 152,
@@ -1221,6 +1329,7 @@ const mainRowB = [
                 width: widthRectangle,
                 height: 254,
                 y: 0,
+                hoverOptions: ["J", "V", "AH"],
               },
               {
                 key: 153,
@@ -1229,6 +1338,7 @@ const mainRowB = [
                 width: widthSquare,
                 height: 254,
                 y: 0,
+                hoverOptions: ["J", "K", "V", "W", "AH", "AI"],
               },
               {
                 key: 154,
@@ -1237,6 +1347,7 @@ const mainRowB = [
                 width: widthRectangle,
                 height: 254,
                 y: 0,
+                hoverOptions: ["K", "W", "AI"],
               },
               {
                 key: 155,
@@ -1245,6 +1356,7 @@ const mainRowB = [
                 width: widthSquare,
                 height: 254,
                 y: 0,
+                hoverOptions: ["K", "L", "W", "X", "AI", "AJ"],
               },
               {
                 key: 156,
@@ -1253,6 +1365,7 @@ const mainRowB = [
                 width: widthRectangle + 14,
                 height: 254,
                 y: 0,
+                hoverOptions: ["L", "X", "AJ"],
               },
             ],
           },
@@ -1260,21 +1373,76 @@ const mainRowB = [
       },
     ],
   },
-
   {
     name: "COL_B-ROW_B",
     value: 1,
     height: 51,
     width: 942,
     x: 5,
-    hoverPoints: {
-      height: 58,
-      y: -6,
-    },
     col: [
-      { name: "BBA", value: 0, height: 254, y: 0, key: 40 },
-      { name: "BBB", value: 0, height: 254, y: 0, key: 41 },
-      { name: "BBC", value: 0, height: 254, y: 0, key: 42 },
+      {
+        name: "ROW_B-COL_A",
+        value: 0,
+        height: 254,
+        y: 0,
+        key: 40,
+        hoverOptions: [
+          "A",
+          "B",
+          "C",
+          "D",
+          "M",
+          "N",
+          "O",
+          "P",
+          "Y",
+          "Z",
+          "AA",
+          "AB",
+        ],
+      },
+      {
+        name: "ROW_B-COL_B",
+        value: 0,
+        height: 254,
+        y: 0,
+        key: 41,
+        hoverOptions: [
+          "E",
+          "F",
+          "G",
+          "H",
+          "Q",
+          "R",
+          "S",
+          "T",
+          "AC",
+          "AD",
+          "AE",
+          "AF",
+        ],
+      },
+      {
+        name: "ROW_B-COL_C",
+        value: 0,
+        height: 254,
+        y: 0,
+        key: 42,
+        hoverOptions: [
+          "I",
+          "J",
+          "K",
+          "L",
+          "U",
+          "V",
+          "W",
+          "X",
+          "AG",
+          "AH",
+          "AI",
+          "AJ",
+        ],
+      },
     ],
   },
   {
@@ -1284,20 +1452,217 @@ const mainRowB = [
     width: 942,
     x: 5,
     col: [
-      { name: "BCA", value: 0, height: 254, y: 0, key: 43 },
-      { name: "BCB", value: 0, height: 254, y: 0, key: 45 },
-      { name: "BCC", value: 0, height: 254, y: 0, key: 47 },
-      { name: "BCD", value: 0, height: 254, y: 0, key: 48 },
-      { name: "BCE", value: 0, height: 254, y: 0, key: 46 },
-      { name: "BCF", value: 0, height: 254, y: 0, key: 44 },
+      {
+        name: "ROW_C-COL_A",
+        value: 0,
+        height: 254,
+        y: 0,
+        key: 43,
+        hoverOptions: [
+          "A",
+          "B",
+          "C",
+          "D",
+          "E",
+          "F",
+          "M",
+          "N",
+          "O",
+          "P",
+          "Q",
+          "R",
+          "Y",
+          "Z",
+          "AA",
+          "AB",
+          "AC",
+          "AD",
+        ],
+      },
+      {
+        name: "ROW_C-COL_B",
+        value: 0,
+        height: 254,
+        y: 0,
+        key: 45,
+        hoverOptions: [
+          "B",
+          "D",
+          "F",
+          "H",
+          "J",
+          "L",
+          "M",
+          "O",
+          "Q",
+          "S",
+          "U",
+          "W",
+          "Z",
+          "AB",
+          "AD",
+          "AF",
+          "AH",
+          "AJ",
+        ],
+      },
+      {
+        name: "ROW_C-COL_C",
+        value: 0,
+        height: 254,
+        y: 0,
+        key: 47,
+
+        hoverOptions: [
+          "A",
+          "C",
+          "D",
+          "F",
+          "G",
+          "I",
+          "J",
+          "L",
+          "N",
+          "Q",
+          "T",
+          "W",
+          "Y",
+          "AA",
+          "AD",
+          "AE",
+          "AG",
+          "AJ",
+        ],
+      },
+      {
+        name: "ROW_C-COL_D",
+        value: 0,
+        height: 254,
+        y: 0,
+        key: 48,
+
+        hoverOptions: [
+          "B",
+          "E",
+          "H",
+          "K",
+          "M",
+          "O",
+          "P",
+          "R",
+          "S",
+          "U",
+          "V",
+          "X",
+          "Z",
+          "AB",
+          "AC",
+          "AF",
+          "AH",
+          "AI",
+        ],
+      },
+      {
+        name: "ROW_C-COL_E",
+        value: 0,
+        height: 254,
+        y: 0,
+        key: 46,
+
+        hoverOptions: [
+          "A",
+          "C",
+          "E",
+          "G",
+          "I",
+          "K",
+          "N",
+          "P",
+          "R",
+          "T",
+          "V",
+          "X",
+          "Y",
+          "AA",
+          "AC",
+          "AE",
+          "AG",
+          "AI",
+        ],
+      },
+      {
+        name: "ROW_C-COL_F",
+        value: 0,
+        height: 254,
+        y: 0,
+        key: 44,
+
+        hoverOptions: [
+          "G",
+          "H",
+          "I",
+          "J",
+          "K",
+          "L",
+          "S",
+          "T",
+          "U",
+          "V",
+          "W",
+          "X",
+          "AE",
+          "AF",
+          "AG",
+          "AH",
+          "AI",
+          "AJ",
+        ],
+      },
     ],
   },
 ];
 
 const mainRowC = [
-  { name: "COL_C-ROW_A", value: 0, height: 80, y: 0, x: 0, key: 37 },
-  { name: "COL_C-ROW_B", value: 1, height: 80, y: 80, x: 0, key: 38 },
-  { name: "COL_C-ROW_C", value: 2, height: 80, y: 80 + 80, x: 0, key: 39 },
+  {
+    name: "COL_C-ROW_A",
+    value: 0,
+    height: 80,
+    y: 0,
+    x: 0,
+    key: 37,
+    hoverOptions: ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"],
+  },
+  {
+    name: "COL_C-ROW_B",
+    value: 1,
+    height: 80,
+    y: 80,
+    x: 0,
+    key: 38,
+    hoverOptions: ["M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X"],
+  },
+  {
+    name: "COL_C-ROW_C",
+    value: 2,
+    height: 80,
+    y: 80 + 80,
+    x: 0,
+    key: 39,
+    hoverOptions: [
+      "Y",
+      "Z",
+      "AA",
+      "AB",
+      "AC",
+      "AD",
+      "AE",
+      "AF",
+      "AG",
+      "AH",
+      "AI",
+      "AJ",
+    ],
+  },
 ];
 
 const polygonPoints = [
@@ -1310,12 +1675,12 @@ const polygonPoints = [
 ];
 
 const polygonHoverPoints = [
-  { x: 0, y: 130 },
+  { x: 0, y: 134 },
   { x: 26, y: 0 },
   { x: 68, y: 0 },
   { x: 68, y: 240 },
   { x: 26, y: 240 },
-  { x: 0, y: 130 },
+  { x: 0, y: 134 },
 ];
 
 const mainCols = [
@@ -1325,18 +1690,14 @@ const mainCols = [
     width: 62,
     height: 240,
     points: polygonPoints,
-    hoverPoints: polygonHoverPoints,
-    debugColor: 0x0000ff,
-    debugOpacity: 0.5,
     key: 0,
+    hoverOptions: ["A0"],
   },
   {
     name: "COL_B",
     type: BoardColFigure.RECTANGLE,
     width: 948,
     row: mainRowB,
-    debugColor: 0x00ff00,
-    debugOpacity: 0.2,
   },
   {
     name: "COL_C",
@@ -1344,354 +1705,355 @@ const mainCols = [
     width: 79,
     height: 240,
     row: mainRowC,
-    debugColor: 0x0000ff,
-    debugOpacity: 0.3,
   },
 ];
 
-export const mainColsHover = {
-  name: "COL_B-ROW_A-HOVER",
-  value: 0,
-  height: 240,
-  width: 939,
-  x: 0,
-  col: [
-    {
-      name: "BAA-HOVER",
-      value: 0,
-      height: 0,
-      y: 0,
-      row: [
-        {
-          name: "BAAA-HOVER",
-          value: 0,
-          height: 80,
-          y: 0,
-          col: [
-            {
-              key: 49,
-              name: "A",
-              value: 0,
-              width: widthSquareHover,
-              height: 254,
-              y: 0,
-              hoverOptions: ["COL_A", "B"],
-            },
-            {
-              key: 3,
-              name: "B",
-              value: 0,
-              width: widthSquareHover,
-              height: 254,
-              y: 0,
-            },
-            {
-              key: 50,
-              name: "C",
-              value: 0,
-              width: widthSquareHover,
-              height: 254,
-              y: 0,
-              hoverOptions: ["B", "D"],
-              hoverPoints: {
-                width: widthSquare + 10,
+export const mainColsHover = [
+  {
+    name: "A0",
+    type: BoardColFigure.POLYGON,
+    width: 69.5,
+    height: 240,
+    points: polygonHoverPoints,
+    debugColor: 0x0000ff,
+    debugOpacity: 0.5,
+    key: 0,
+  },
+  {
+    name: "COL_B-ROW_A-HOVER",
+    value: 0,
+    height: 240,
+    width: 939,
+    x: 0,
+    col: [
+      {
+        name: "BAA-HOVER",
+        value: 0,
+        height: 0,
+        y: 0,
+        row: [
+          {
+            name: "BAAA-HOVER",
+            value: 0,
+            height: 80,
+            y: 0,
+            col: [
+              {
+                key: 49,
+                name: "A",
+                value: 0,
+                width: widthSquareHover,
                 height: 254,
+                y: 0,
               },
-            },
-            {
-              key: 6,
-              name: "D",
-              value: 0,
-              width: widthSquareHover,
-              height: 254,
-              y: 0,
-            },
-            {
-              key: 51,
-              name: "E",
-              value: 0,
-              width: widthSquareHover,
-              height: 254,
-              y: 0,
-              hoverOptions: ["D", "F"],
-            },
-            {
-              key: 9,
-              name: "F",
-              value: 0,
-              width: widthSquareHover,
-              height: 254,
-              y: 0,
-            },
-            {
-              key: 52,
-              name: "G",
-              value: 0,
-              width: widthSquareHover,
-              height: 254,
-              y: 0,
-            },
-            {
-              key: 12,
-              name: "H",
-              value: 0,
-              width: widthSquareHover,
-              height: 254,
-              y: 0,
-            },
-            {
-              key: 53,
-              name: "I",
-              value: 0,
-              width: widthSquareHover,
-              height: 254,
-              y: 0,
-            },
-            {
-              key: 15,
-              name: "J",
-              value: 0,
-              width: widthSquareHover,
-              height: 254,
-              y: 0,
-            },
-            {
-              key: 54,
-              name: "K",
-              value: 0,
-              width: widthSquareHover,
-              height: 254,
-              y: 0,
-            },
-            {
-              key: 18,
-              name: "L",
-              value: 0,
-              width: widthSquareHover,
-              height: 254,
-              y: 0,
-            },
-          ],
-        },
-        {
-          name: "BAAB",
-          value: 0,
-          y: 0,
-          height: 80,
-          col: [
-            {
-              key: 61,
-              name: "M",
-              value: 0,
-              width: widthSquareHover,
-              height: 254,
-              y: 0,
-            },
-            {
-              key: 62,
-              name: "N",
-              value: 0,
-              width: widthSquareHover,
-              height: 254,
-              y: 0,
-            },
-            {
-              key: 63,
-              name: "O",
-              value: 0,
-              width: widthSquareHover,
-              height: 254,
-              y: 0,
-            },
-            {
-              key: 64,
-              name: "P",
-              value: 0,
-              width: widthSquareHover,
-              height: 254,
-              y: 0,
-            },
-            {
-              key: 65,
-              name: "Q",
-              value: 0,
-              width: widthSquareHover,
-              height: 254,
-              y: 0,
-            },
-            {
-              key: 66,
-              name: "R",
-              value: 0,
-              width: widthSquareHover,
-              height: 254,
-              y: 0,
-            },
-            {
-              key: 67,
-              name: "S",
-              value: 0,
-              width: widthSquareHover,
-              height: 254,
-              y: 0,
-            },
-            {
-              key: 68,
-              name: "T",
-              value: 0,
-              width: widthSquareHover,
-              height: 254,
-              y: 0,
-            },
-            {
-              key: 69,
-              name: "AG",
-              value: 0,
-              width: widthSquareHover,
-              height: 254,
-              y: 0,
-            },
-            {
-              key: 70,
-              name: "AH",
-              value: 0,
-              width: widthSquareHover,
-              height: 254,
-              y: 0,
-            },
-            {
-              key: 71,
-              name: "AI",
-              value: 0,
-              width: widthSquareHover,
-              height: 254,
-              y: 0,
-            },
-            {
-              key: 72,
-              name: "AJ",
-              value: 0,
-              width: widthSquareHover,
-              height: 254,
-              y: 0,
-            },
-          ],
-        },
-        {
-          name: "BAAC",
-          value: 0,
-          y: 0,
-          height: 80,
-          col: [
-            {
-              key: 85,
-              name: "AW",
-              value: 0,
-              width: widthSquareHover,
-              height: 254,
-              y: 0,
-            },
-            {
-              key: 2,
-              name: "AX",
-              value: 0,
-              width: widthSquareHover,
-              height: 254,
-              y: 0,
-            },
-            {
-              key: 86,
-              name: "AY",
-              value: 0,
-              width: widthSquareHover,
-              height: 254,
-              y: 0,
-            },
-            {
-              key: 5,
-              name: "AZ",
-              value: 0,
-              width: widthSquareHover,
-              height: 254,
-              y: 0,
-            },
-            {
-              key: 87,
-              name: "BA",
-              value: 0,
-              width: widthSquareHover,
-              height: 254,
-              y: 0,
-            },
-            {
-              key: 8,
-              name: "BB",
-              value: 0,
-              width: widthSquareHover,
-              height: 254,
-              y: 0,
-            },
-            {
-              key: 88,
-              name: "BC",
-              value: 0,
-              width: widthSquareHover,
-              height: 254,
-              y: 0,
-            },
-            {
-              key: 11,
-              name: "BD",
-              value: 0,
-              width: widthSquareHover,
-              height: 254,
-              y: 0,
-            },
-            {
-              key: 89,
-              name: "BE",
-              value: 0,
-              width: widthSquareHover,
-              height: 254,
-              y: 0,
-            },
-            {
-              key: 14,
-              name: "BF",
-              value: 0,
-              width: widthSquareHover,
-              height: 254,
-              y: 0,
-            },
-            {
-              key: 90,
-              name: "BG",
-              value: 0,
-              width: widthSquareHover,
-              height: 254,
-              y: 0,
-            },
-            {
-              key: 17,
-              name: "BH",
-              value: 0,
-              width: widthSquareHover,
-              height: 254,
-              y: 0,
-            },
-          ],
-        },
-      ],
-    },
-  ],
-};
+              {
+                key: 3,
+                name: "B",
+                value: 0,
+                width: widthSquareHover,
+                height: 254,
+                y: 0,
+              },
+              {
+                key: 50,
+                name: "C",
+                value: 0,
+                width: widthSquareHover,
+                height: 254,
+                y: 0,
+              },
+              {
+                key: 6,
+                name: "D",
+                value: 0,
+                width: widthSquareHover,
+                height: 254,
+                y: 0,
+              },
+              {
+                key: 51,
+                name: "E",
+                value: 0,
+                width: widthSquareHover,
+                height: 254,
+                y: 0,
+              },
+              {
+                key: 9,
+                name: "F",
+                value: 0,
+                width: widthSquareHover,
+                height: 254,
+                y: 0,
+              },
+              {
+                key: 52,
+                name: "G",
+                value: 0,
+                width: widthSquareHover,
+                height: 254,
+                y: 0,
+              },
+              {
+                key: 12,
+                name: "H",
+                value: 0,
+                width: widthSquareHover,
+                height: 254,
+                y: 0,
+              },
+              {
+                key: 53,
+                name: "I",
+                value: 0,
+                width: widthSquareHover,
+                height: 254,
+                y: 0,
+              },
+              {
+                key: 15,
+                name: "J",
+                value: 0,
+                width: widthSquareHover,
+                height: 254,
+                y: 0,
+              },
+              {
+                key: 54,
+                name: "K",
+                value: 0,
+                width: widthSquareHover,
+                height: 254,
+                y: 0,
+              },
+              {
+                key: 18,
+                name: "L",
+                value: 0,
+                width: widthSquareHover,
+                height: 254,
+                y: 0,
+              },
+            ],
+          },
+          {
+            name: "BAAB",
+            value: 0,
+            y: 0,
+            height: 80,
+            col: [
+              {
+                key: 61,
+                name: "M",
+                value: 0,
+                width: widthSquareHover,
+                height: 254,
+                y: 0,
+              },
+              {
+                key: 62,
+                name: "N",
+                value: 0,
+                width: widthSquareHover,
+                height: 254,
+                y: 0,
+              },
+              {
+                key: 63,
+                name: "O",
+                value: 0,
+                width: widthSquareHover,
+                height: 254,
+                y: 0,
+              },
+              {
+                key: 64,
+                name: "P",
+                value: 0,
+                width: widthSquareHover,
+                height: 254,
+                y: 0,
+              },
+              {
+                key: 65,
+                name: "Q",
+                value: 0,
+                width: widthSquareHover,
+                height: 254,
+                y: 0,
+              },
+              {
+                key: 66,
+                name: "R",
+                value: 0,
+                width: widthSquareHover,
+                height: 254,
+                y: 0,
+              },
+              {
+                key: 67,
+                name: "S",
+                value: 0,
+                width: widthSquareHover,
+                height: 254,
+                y: 0,
+              },
+              {
+                key: 68,
+                name: "T",
+                value: 0,
+                width: widthSquareHover,
+                height: 254,
+                y: 0,
+              },
+              {
+                key: 69,
+                name: "U",
+                value: 0,
+                width: widthSquareHover,
+                height: 254,
+                y: 0,
+              },
+              {
+                key: 70,
+                name: "V",
+                value: 0,
+                width: widthSquareHover,
+                height: 254,
+                y: 0,
+              },
+              {
+                key: 71,
+                name: "W",
+                value: 0,
+                width: widthSquareHover,
+                height: 254,
+                y: 0,
+              },
+              {
+                key: 72,
+                name: "X",
+                value: 0,
+                width: widthSquareHover,
+                height: 254,
+                y: 0,
+              },
+            ],
+          },
+          {
+            name: "BAAC",
+            value: 0,
+            y: 0,
+            height: 80,
+            col: [
+              {
+                key: 85,
+                name: "Y",
+                value: 0,
+                width: widthSquareHover,
+                height: 254,
+                y: 0,
+              },
+              {
+                key: 2,
+                name: "Z",
+                value: 0,
+                width: widthSquareHover,
+                height: 254,
+                y: 0,
+              },
+              {
+                key: 86,
+                name: "AA",
+                value: 0,
+                width: widthSquareHover,
+                height: 254,
+                y: 0,
+              },
+              {
+                key: 5,
+                name: "AB",
+                value: 0,
+                width: widthSquareHover,
+                height: 254,
+                y: 0,
+              },
+              {
+                key: 87,
+                name: "AC",
+                value: 0,
+                width: widthSquareHover,
+                height: 254,
+                y: 0,
+              },
+              {
+                key: 8,
+                name: "AD",
+                value: 0,
+                width: widthSquareHover,
+                height: 254,
+                y: 0,
+              },
+              {
+                key: 88,
+                name: "AE",
+                value: 0,
+                width: widthSquareHover,
+                height: 254,
+                y: 0,
+              },
+              {
+                key: 11,
+                name: "AF",
+                value: 0,
+                width: widthSquareHover,
+                height: 254,
+                y: 0,
+              },
+              {
+                key: 89,
+                name: "AG",
+                value: 0,
+                width: widthSquareHover,
+                height: 254,
+                y: 0,
+              },
+              {
+                key: 14,
+                name: "AH",
+                value: 0,
+                width: widthSquareHover,
+                height: 254,
+                y: 0,
+              },
+              {
+                key: 90,
+                name: "AI",
+                value: 0,
+                width: widthSquareHover,
+                height: 254,
+                y: 0,
+              },
+              {
+                key: 17,
+                name: "AJ",
+                value: 0,
+                width: widthSquareHover,
+                height: 254,
+                y: 0,
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+];
 
-export const drawerBoard: DrawerBoard = {
+export const drawingBoard: DrawingBoard = {
   x: -546.5,
   y: -174.5,
   width: 1091,
   height: 361,
-  debugColor: 0xff0000,
-  debugOpacity: 0.1,
   cols: mainCols,
 };

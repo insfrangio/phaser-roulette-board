@@ -1,24 +1,20 @@
-export interface DrawerBoard {
+export interface DrawingBoard {
   x: number;
   y: number;
   width: number;
   height: number;
-  debugColor: number;
-  debugOpacity: number;
-  cols: DrawerBoardCol[];
+  cols: BoardMainCols[];
 }
 
-export interface DrawerBoardCol {
+export interface BoardMainCols {
   name: string;
   type: BoardColFigure;
   width: number;
   height?: number;
   points?: Point[];
-  polygonHoverPoints?: Point[];
-  debugColor: number;
-  debugOpacity: number;
   row?: Row[];
   key?: number;
+  hoverOptions?: Array<string>;
 }
 
 export enum BoardColFigure {
@@ -39,10 +35,7 @@ export interface Row {
   col?: ColElement[];
   width?: number;
   key?: number;
-  hoverPoints?: {
-    height: number;
-    y: number;
-  };
+  hoverOptions?: Array<string>;
 }
 
 export interface SubColElement {}
@@ -56,6 +49,7 @@ export interface ColElement {
   col?: ColElement[];
   width?: number;
   key?: number;
+  hoverOptions?: Array<string>;
 }
 
 export interface RowElement {
