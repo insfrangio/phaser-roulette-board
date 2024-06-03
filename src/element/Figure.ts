@@ -6,7 +6,6 @@ interface BaseConfig {
   y: number;
   boxWidth: number;
   boxHeight: number;
-  boxAlpha?: number;
   color?: number;
   onClick?: (pointer?: PointerEvent) => void;
   onPointerOver?: (pointer?: PointerEvent) => void;
@@ -15,12 +14,9 @@ interface BaseConfig {
   name: string;
   format: BoardColFigure;
   alpha?: number;
-  // format: "rectangle" | "polygon";
+  debugMode?: boolean;
+  debugColor?: number;
 }
-
-// interface PolygonSpecificConfig {
-//   points: Point[];
-// }
 
 type FigureConfig = BaseConfig &
   (
@@ -34,11 +30,12 @@ export class Figure extends Phaser.GameObjects.Container {
   private text?: string;
   private boxWidth: number = 50;
   private boxHeight: number = 50;
-  private boxAlpha: number = 1;
   private onPointerOver?: (pointer?: PointerEvent) => void;
   private onPointerOut?: (pointer?: PointerEvent) => void;
   private format: BoardColFigure = BoardColFigure.RECTANGLE;
   private points?: Point[] = [];
+  private debugMode: boolean;
+  private debugColor: number;
 
   constructor(config: FigureConfig) {
     super(config.scene, config.x, config.y);
@@ -51,10 +48,11 @@ export class Figure extends Phaser.GameObjects.Container {
     this.text = config.text;
     this.boxWidth = config.boxWidth;
     this.boxHeight = config.boxHeight;
-    this.boxAlpha = typeof config.boxAlpha === "number" ? config.boxAlpha : 0;
     this.format = config.format;
     this.points = config.points ? config.points : [];
     this.setAlpha(config.alpha);
+    this.debugMode = config.debugMode ?? false;
+    this.debugColor = config.debugColor ?? 0x000000;
 
     this.create();
 
@@ -78,8 +76,6 @@ export class Figure extends Phaser.GameObjects.Container {
     if (this.onClick) {
       this.addInteractive(graphics, figure);
     }
-
-    // const container = this.scene.add.container(this.x, this.y);
 
     this.add(graphics);
     if (this.text) {
@@ -106,13 +102,18 @@ export class Figure extends Phaser.GameObjects.Container {
   }
 
   private createGraphics() {
-    const graphics = this.scene.add.graphics({
-      fillStyle: { color: this.color, alpha: this.boxAlpha },
-    });
+    const graphics = this.scene.add.graphics();
 
-    if (typeof this.color === "number") {
-      graphics.lineStyle(1, this.color, this.boxAlpha);
+    if (this.debugMode) {
+      const debugAlpha = 0.2;
+      graphics.fillStyle(this.debugColor, debugAlpha);
     }
+
+    if (this.color) {
+      graphics.fillStyle(this.color, 1);
+    }
+
+    // graphics.lineStyle(1, this.color, this.boxAlpha);
 
     graphics.setName(`${this.name}-graphics`);
 
@@ -120,24 +121,6 @@ export class Figure extends Phaser.GameObjects.Container {
   }
   public changeColor(alpha: number = 1) {
     this.setAlpha(alpha);
-    // if (this.graphics) {
-    //   this.graphics.clear();
-    //   this.graphics.fillStyle(color, alpha);
-    //   this.graphics.lineStyle(1, color, alpha);
-
-    //   if (this.format === BoardColFigure.POLYGON) {
-    //   const polygon = this.createPolygon();
-    //   this.graphics.fillPoints(polygon.points, true);
-    //   }
-
-    //   const rect = this.createRectangle(
-    //     this.boxWidth,
-    //     this.boxHeight,
-    //     this.x,
-    //     this.y
-    //   );
-    //   this.graphics.fillRectShape(rect);
-    // }
   }
 
   private addInteractive(

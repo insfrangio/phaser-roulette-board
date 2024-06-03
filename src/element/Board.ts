@@ -8,7 +8,9 @@ import {
   RowElement,
 } from "../types";
 import { isEmpty } from "../util";
+import { Chip } from "./Chip";
 import { Figure } from "./Figure";
+import { HoverManager } from "./HoverManager";
 
 interface BoardConfig {
   scene: Phaser.Scene;
@@ -17,25 +19,21 @@ interface BoardConfig {
   debug?: boolean;
 }
 
+const ALPHA_HOVER = 0.5;
+
 const { POLYGON, RECTANGLE } = BoardColFigure;
 export class Board extends Phaser.GameObjects.Container {
   private debug: boolean;
-  private hoverFigures: Figure[] = [];
+  private hoverFigures: HoverManager;
 
   constructor(config: BoardConfig) {
     super(config.scene, config.x, config.y);
-    this.debug = config.debug || false;
+    this.debug = config.debug || true;
 
+    this.hoverFigures = new HoverManager([]);
     this.create();
 
     this.scene.add.existing(this);
-  }
-
-  private createChip(x: number, y: number) {
-    const chip = this.scene.add.image(x, y, "chip");
-    chip.setOrigin(0.5);
-
-    return chip;
   }
 
   private create() {
@@ -61,33 +59,20 @@ export class Board extends Phaser.GameObjects.Container {
       scene: this.scene,
       x,
       y,
-      boxAlpha: this.debug ? 0.3 : 0,
       boxWidth: width,
       boxHeight: height,
       name: "mainRectangle",
+      debugColor: 0x48dbfb,
+      debugMode: this.debug,
     });
 
-    const mainColumns = this.mainColumns();
     const optionsHover = this.createOptionsHover();
+    const mainColumns = this.mainColumns();
 
     container.add(optionsHover);
     container.add(mainColumns);
 
     return container;
-  }
-
-  private changeFigureColor(
-    figure: ColElement | Row | BoardMainCols,
-    alpha: number
-  ) {
-    figure.hoverOptions?.forEach((hoverOption) => {
-      this.hoverFigures?.find((figure) => {
-        if (figure.name === hoverOption) {
-          figure.changeColor(alpha);
-          return;
-        }
-      });
-    });
   }
 
   private getCurrentOption(figure: Row | ColElement | BoardMainCols) {
@@ -105,6 +90,8 @@ export class Board extends Phaser.GameObjects.Container {
 
       const option = this.getCurrentOption(col);
 
+      const debugColor = colIndex % 2 === 0 ? 0xff9ff3 : 0x2ecc71;
+
       const column = new Figure({
         format: RECTANGLE,
         name: col.name,
@@ -113,46 +100,35 @@ export class Board extends Phaser.GameObjects.Container {
         y: 0,
         boxWidth: currentWidth,
         boxHeight: height,
-        boxAlpha: this.debug && !noAction ? 0.3 : 1,
-        // alpha: noAction ? 0.6 : 1,
-        // color: this.debug
-        //   ? colIndex % 2 === 0
-        //     ? 0x0000ff
-        //     : 0xf9ca24
-        //   : undefined,
-        alpha: this.debug && !noAction ? 1 : 0,
-        color:
-          this.debug && !noAction
-            ? colIndex % 2
-              ? 0xf368e0
-              : 0x0000ff
-            : 0xf9ca24,
-        text: this.debug && !noAction ? String(option?.key) : undefined,
+        alpha: noAction ? 0 : 1,
+        text: this.debug ? String(option?.key) : "",
+        debugMode: this.debug,
+        debugColor: debugColor,
+        color: noAction ? 0xf9ca24 : undefined,
+
         onClick: (pointer) => {
           if (!pointer || col?.row) return;
 
-          const chip = this.createChip(currentWidth / 2, height / 2);
+          const chip = new Chip(this.scene, currentWidth / 2, height / 2);
 
           column.add(chip);
         },
         onPointerOver: () => {
           if (noAction) return;
 
-          this.changeFigureColor(col, 0.6);
+          this.hoverFigures.changeFigureColor(col, ALPHA_HOVER);
         },
         onPointerOut: () => {
           if (noAction) return;
 
-          this.changeFigureColor(col, 0);
+          this.hoverFigures.changeFigureColor(col, 0);
         },
       });
-
-      // this.options?.push(column);
 
       accumulatedWidth += currentWidth;
 
       if (noAction) {
-        this.hoverFigures.push(column);
+        this.hoverFigures.addFigure(column);
       }
 
       return column;
@@ -166,8 +142,6 @@ export class Board extends Phaser.GameObjects.Container {
     width: number,
     noAction: boolean
   ) {
-    // const imperHeight = (height * 83) / 100 / 3;
-    // const parHeight = (height * 17) / 100 / 3;
     const imperHeight = 17;
     const parHeight = 62;
 
@@ -180,6 +154,8 @@ export class Board extends Phaser.GameObjects.Container {
         ? parHeight
         : imperHeight;
 
+      const debugColor = rowIndex % 2 === 0 ? 0xe67e22 : 0x48dbfb;
+
       const rowRect = new Figure({
         format: RECTANGLE,
         name: row.name,
@@ -188,12 +164,8 @@ export class Board extends Phaser.GameObjects.Container {
         y: accumulatedHeight,
         boxWidth: width,
         boxHeight: currentHeight,
-        boxAlpha: this.debug ? (!noAction ? 0 : 0.3) : 0,
-        color: this.debug
-          ? rowIndex % 2 === 0
-            ? 0x0000ff
-            : 0xf9ca24
-          : undefined,
+        debugColor: debugColor,
+        debugMode: this.debug,
       });
 
       if (row.col) {
@@ -220,7 +192,7 @@ export class Board extends Phaser.GameObjects.Container {
     noAction: boolean = false
   ) {
     const cols = colProps.map((col, colIndex) => {
-      // const option = options.find((option) => option.key === col.key);
+      const option = options.find((option) => option.key === col.key);
 
       const column = new Figure({
         format: RECTANGLE,
@@ -230,26 +202,32 @@ export class Board extends Phaser.GameObjects.Container {
         y: 0,
         boxWidth: width,
         boxHeight: height,
-        text: col.name,
+        text: this.debug ? option?.alias : "",
+
         onClick: (pointer) => {
           if (!pointer || noAction) return;
 
-          if (col?.col) return;
-          const chip = this.createChip(width / 2, height / 2);
-
+          // if (col?.col) return;
+          const chip = new Chip(this.scene, width / 2, height / 2);
           column.add(chip);
         },
         onPointerOver: () => {
           if (!isEmpty(col?.col)) return;
 
-          this.changeFigureColor(col, 0.6);
+          this.hoverFigures.changeFigureColor(col, ALPHA_HOVER);
         },
 
         onPointerOut: () => {
           if (!isEmpty(col?.col)) return;
 
-          this.changeFigureColor(col, 0);
+          this.hoverFigures.changeFigureColor(col, 0);
         },
+        debugColor: this.debug
+          ? colIndex % 2 === 0
+            ? 0xff9ff3
+            : 0x2ecc71
+          : 0xf9ca24,
+        debugMode: this.debug,
       });
 
       if (col.row) {
@@ -283,6 +261,7 @@ export class Board extends Phaser.GameObjects.Container {
               y: 0,
               color: 0xf9ca24,
               alpha: 0,
+              debugMode: this.debug,
             })
           : new Figure({
               format: RECTANGLE,
@@ -295,7 +274,7 @@ export class Board extends Phaser.GameObjects.Container {
             });
 
       if (col.type === POLYGON) {
-        this.hoverFigures.push(figure);
+        this.hoverFigures.addFigure(figure);
       }
 
       if (col.col) {
@@ -324,44 +303,51 @@ export class Board extends Phaser.GameObjects.Container {
     const rowsContainer = rows.map((row, rowIndex) => {
       const option = this.getCurrentOption(row);
       const currentWidth = row.width || width;
-      const bgColor = rowIndex % 2 === 0 ? 0xe67e22 : 0xf368e0;
+      const bgColor = isEmpty(row.col)
+        ? rowIndex % 2 === 0
+          ? 0xe67e22
+          : 0xf368e0
+        : rowIndex % 2 === 0
+        ? 0x3498db
+        : 0x2ecc71;
 
       const rowFigure = new Figure({
         format: RECTANGLE,
         scene: this.scene,
         x: row.x,
         y: accumulatedHeight,
-        color: bgColor,
         boxWidth: currentWidth,
         boxHeight: row.height || 0,
-        boxAlpha: this.debug ? 0.3 : 0,
         text: this.debug ? option?.alias : "",
         name: row.name,
         onClick: (pointer) => {
           if (!pointer) return;
 
           if (!isEmpty(row?.col)) return;
-          const chip = this.createChip(currentWidth / 2, row.height / 2);
+          const chip = new Chip(this.scene, currentWidth / 2, row.height / 2);
 
           rowFigure.add(chip);
         },
         onPointerOver: () => {
           if (!isEmpty(row?.col)) return;
 
-          this.changeFigureColor(row, 0.6);
+          this.hoverFigures.changeFigureColor(row, ALPHA_HOVER);
         },
         onPointerOut: () => {
           if (!isEmpty(row?.col)) return;
 
-          this.changeFigureColor(row, 0);
+          this.hoverFigures.changeFigureColor(row, 0);
         },
+        debugColor: bgColor,
+        debugMode: this.debug,
       });
 
       if (row.col) {
         const columns = this.createColumns(
           row.col,
           currentWidth / row.col.length,
-          row.height
+          row.height,
+          false
         );
 
         rowFigure.add(columns);
@@ -377,7 +363,7 @@ export class Board extends Phaser.GameObjects.Container {
 
   private onClickOption(height: number, width: number, pointer?: PointerEvent) {
     if (!pointer) return;
-    const chip = this.createChip(width / 2, height / 2);
+    const chip = new Chip(this.scene, width / 2, height / 2);
 
     return chip;
   }
@@ -406,16 +392,16 @@ export class Board extends Phaser.GameObjects.Container {
             boxWidth: column.width,
             x: accumulatedWidth,
             y: 0,
-            color: 0xf368e0,
-            boxAlpha: this.debug ? 0.2 : 0,
             onClick: onClick,
-            text: option?.alias,
+            text: this.debug ? option?.alias : undefined,
             onPointerOver: () => {
-              this.changeFigureColor(column, 0.6);
+              this.hoverFigures.changeFigureColor(column, ALPHA_HOVER);
             },
             onPointerOut: () => {
-              this.changeFigureColor(column, 0);
+              this.hoverFigures.changeFigureColor(column, 0);
             },
+            debugColor: 0xecf0f1,
+            debugMode: this.debug,
           })
         : new Figure({
             scene: this.scene,
@@ -426,12 +412,12 @@ export class Board extends Phaser.GameObjects.Container {
             x: accumulatedWidth,
             y: 0,
             onClick: onClick,
-            text: option?.alias,
-            boxAlpha: this.debug ? 0.2 : 0,
+            debugColor: 0x9b59b6,
+            debugMode: this.debug,
           });
 
     if (column.hoverOptions) {
-      this.hoverFigures.push(figure);
+      this.hoverFigures.addFigure(figure);
     }
 
     return figure;
@@ -472,7 +458,6 @@ export class Board extends Phaser.GameObjects.Container {
 
       if (column?.row) {
         const rows = this.createRows(column.row, column.width);
-
         figure.add(rows);
       }
 
